@@ -1,0 +1,29 @@
+#User Story Specification: <User Story ID\>
+
+##1.	Description
+
+>[A user story is an agile project management tool used to define product or system functionality and the associated benefit of the functionality.  In an Agile environment, projects are commonly comprised of a large number of user stories representing various levels of system/product user.  The user story describes the type of system/product user, what functionality they want, and why they want it (or why it’s beneficial).  The format of a user story is:]
+
+As a <type of user>, I want <some goal> so that <some reason>.
+
+>[Example: As an end user, I want to access the human resource database to generate reports so that I can periodically update the company’s staffing contact list.]
+
+##2.	Acceptance Criteria
+>[Acceptance criteria, while not formally a part of the user story format, is a crucial component of user stories.  As user stories evolve toward iteration planning, the team should collaboratively discuss the acceptance criteria for satisfying each user story.  Acceptance criteria are used by the team to understand when the intent of the user story has been met. 
+Example:
+>>-Ability to gain access to human resource database
+
+>>-Ability to generate a report which includes
+>>>o	Employee names
+
+>>>o	Dates of birth 
+
+>>>o	Social security numbers 
+
+>>>o	Addresses
+
+>>>o	Telephone numbers
+
+>>-Ability to use report data to update staffing contact list]
+
+

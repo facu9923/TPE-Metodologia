@@ -1,0 +1,33 @@
+#Use-Case Specification: <Use-Case Name\>
+
+##1. Brief Description
+
+##2. Basic Flow of Events
+
+##3. Alternative Flows
+
+####3.1 <Area of Functionality\>
+ 
+3.1.1. < A1 First Alternative Flow >
+
+3.1.1.1. < An Alternative Subflow >
+
+3.1.2. < A2 Second Alternative Flow >
+
+##4. Key Scenarios
+
+##5. Preconditions
+
+####5.1 <Precondition One\>
+
+##6. Postconditions
+
+####6.1 <Postcondition One\>
+
+##7. Extension Points
+
+####7.1 <Name of Extension Point\>
+
+##8. Special Requirements
+
+##9. Additional Information
