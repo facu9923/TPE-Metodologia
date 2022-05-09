@@ -1,0 +1,270 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang2058{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Calibri;}{\f2\fnil\fcharset2 Symbol;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\fs26\lang10 User Story Specification: US 1 - TPE-6\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Yo como usuario quiero registrarme para ingresar a la app.\par
+
+\pard\sa200\sl276\slmult1\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 La pantalla debera solicitar:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 ingresar nombre\par
+{\pntext\f2\'B7\tab}ingresar apellido\par
+{\pntext\f2\'B7\tab}ingresar direccion\par
+{\pntext\f2\'B7\tab}ingresar telefono\par
+{\pntext\f2\'B7\tab}ingresar email\par
+{\pntext\f2\'B7\tab}ingresar obra social\par
+{\pntext\f2\'B7\tab}ingresar nro de afiliado\par
+
+\pard\sa200\sl276\slmult1 Luego se debera crear el usuario correctamente.\par
+\b\fs26\par
+User Story Specification: US 2 - TPE-8\par
+\b0\fs24 1. Descripci\'f3n\f1\fs22\par
+\f0 Yo como usuario quiero Logearme para ingresar a la app.\f1\par
+\f0\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El usuario tiene que poder ingresar el DNI y comprobar que el DNI es correcto.\par
+\b\fs26\par
+User Story Specification: US 3 - EPICA - TPE-39\par
+\b0\fs24 1. Descripci\'f3n\f1\fs22\par
+\f0 Yo como paciente quiero ver los turnos para una mejor organizaci\'f3n personal\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se deberan listar los turnos pertenecientes al usuario\par
+\par
+\b\fs26 User Story Specification: US 3.1 - TPE-10\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero ver los pr\'f3ximos turnos para informarme sobre los turnos reservados.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se deber\'e1n cumplir correctamente las subtareas.\par
+\b\fs26\par
+User Story Specification: US 3.1.1 - TPE-23\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero ver los pr\'f3ximos turnos ordenados cronol\'f3gicamente para una mejor visi\'f3n de los mismos.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema deber\'e1 mostrar en pantalla de forma cronol\'f3gica los turnos del paciente\par
+Adicionalmente se indicaran:\par
+   Se deberan cumplir las subtareas\par
+Adicionalmente se mostrara en pantalla:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 medico\par
+{\pntext\f2\'B7\tab}especialidad\par
+{\pntext\f2\'B7\tab}dia\par
+{\pntext\f2\'B7\tab}horario\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs26 User Story Specification: US 3.1.2 - TPE-24\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero cancelar el turno para no asistir a la consulta.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debe poder eliminar el turno.\par
+\b\fs26\par
+User Story Specification: US 4 - EPICA - TPE-32\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero sacar un turno para tener una consulta con el medico.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Se registrara el turno brindado, dando detalles del mismo\par
+{\pntext\f2\'B7\tab}Se enviara el turno por mail\par
+{\pntext\f2\'B7\tab}Yo como paciente puedo imprimirlo\par
+
+\pard\sa200\sl276\slmult1\b\fs26\par
+User Story Specification: US 4.1 - TPE-11\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero seleccionar un medico para poder sacar un turno.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El paciente deber\'e1 poder seleccionar un medico, dentro de la lista de m\'e9dicos. El sistema debe brindar la misma.\par
+\b\fs26\par
+User Story Specification: US 4.1.1 - TPE-12\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero filtrar por especialidad para mejorar mi busqueda.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debe permitir filtrar por especialidad en base a los m\'e9dicos que tiene, luego mostrar por pantalla el resultado.\par
+\b\fs26\par
+User Story Specification: US 4.1.2 - TPE-13\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como paciente puedo filtrar por obra social para mejorar mi busqueda.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema de poder filtrar por obra social a los m\'e9dicos. Luego mostrar por pantalla el resultado.\par
+\b\fs26\par
+User Story Specification: US 4.1.3 - TPE-14\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como paciente puedo filtrar por ambas para mejorar mi busqueda.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debe poder filtrar por obra social y especialidad en base a los m\'e9dicos que tiene, luego mostrar por pantalla el resultado.\par
+\par
+\b\fs26 User Story Specification: US 4.2 - TPE-16\fs22\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como paciente quiero seleccionar un medico para poder terminar de reservar un turno\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema deber\'e1 permitir seleccionar al medico, luego, mostrara en pantalla los d\'edas y horarios en los que atiende el medico.\par
+\par
+\b\fs26 User Story Specification: US 4.3 - TPE-19\fs22\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como paciente quiero dar el rango de fechas y ver los turnos disponibles para sacar el turno mas conveniente\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 El sistema tiene que solicitar un rango de fechas para mostrar los turnos disponibles.\par
+{\pntext\f2\'B7\tab}Las dos subtareas deben ser completadas correctamente.\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs26 User Story Specification: US 4.3.1 - TPE-22\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero ver turnos para la semana proxima en caso de que no haya para esta semana.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debo mostrar y solicitar que seleccione un turno en el nuevo rango dado.\par
+\b\fs26\par
+User Story Specification: US 4.3.2 - TPE-49\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero seleccionar ma\'f1ana o tarde para sacar el turno mas conveniente.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema brindara las opciones \ldblquote ma\'f1ana\rdblquote  o \ldblquote tarde\rdblquote , luego se registrara la decision tomada.\par
+\b\fs26\par
+User Story Specification: US 4.4 - TPE-25\fs22\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como paciente quiero re-confirmar mis datos personales para poder terminar de reservar mi turno.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema comparar los datos guardados con los que va are-confirmar el cliente:\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 re-confirmar nombre\par
+{\pntext\f2\'B7\tab}re-confirmar apellido\par
+{\pntext\f2\'B7\tab}re-confirmar direccion\par
+{\pntext\f2\'B7\tab}re-confirmar telefono\par
+{\pntext\f2\'B7\tab}re-confirmar email \par
+{\pntext\f2\'B7\tab}re-confirmar obra social\par
+{\pntext\f2\'B7\tab}re-confirmar nro de afiliado\par
+
+\pard\sa200\sl276\slmult1\b\fs26\par
+User Story Specification: US 4.5 - TPE-38\fs22\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como paciente quiero ser alertado si el medico no trabaja con mi obra social para evitar costos adicionales o errores.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 El sistema deber\'e1 comprobar que el medico seleccionado trabaja o no con la obra social del paciente\par
+{\pntext\f2\'B7\tab}Tambi\'e9n comprobara si cobra un diferencial\par
+{\pntext\f2\'B7\tab}Alertar al usuario en caso que se cumpla alguna de las anteriores\par
+{\pntext\f2\'B7\tab}El sistema permitir\'e1 reservar el turno de todas maneras\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs26 User Story Specification: US 5 - EPICA - TPE-43\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como responsable de la instituci\'f3n quiero gestionar los usuarios de los trabajadores para una mejor gesti\'f3n.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se deber\'e1n cumplir correctamente las subtareas.\par
+\b\fs26\par
+User Story Specification: US 5.1 - TPE-17\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como responsable de la instituci\'f3n medica quiero crear usuarios para secretarias y m\'e9dicos para que tengan accesibilidad a la app.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Verificar que el medico y/o secretaria no este registrado en el sistema.\par
+{\pntext\f2\'B7\tab}Se deben ingresar los datos correspondientes del medico y/o secretaria. Los datos del medico son: Nombre, Apellido, DNI, Especialidad, Obra Social, D\'edas y horarios de atenci\'f3n. Los datos de la secretaria son: Nombre, Apellido, DNI.\par
+{\pntext\f2\'B7\tab}Se asigna un acceso \'fanico a cada medico y/o secretaria.\par
+
+\pard\sa200\sl276\slmult1\b\fs26\par
+User Story Specification: US 5.2 - TPE-20\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como responsable de la instituci\'f3n medica quiero poder asignar/desasignar a cada secretaria el grupo de m\'e9dicos con los que trabaja para una mejor organizaci\'f3n de trabajo\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 El sistema debe poder comparar que m\'e9dicos trabajan con que secretaria\par
+{\pntext\f2\'B7\tab}El sistema debe poderlos asignar/desasignar\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs26 User Story Specification: US 6 - EPICA - TPE-47\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como secretaria quiero gestionar los turnos para una mayor organizaci\'f3n laboral.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se deber\'e1n cumplir correctamente las subtareas.\par
+\fs24\par
+\b\fs26 User Story Specification: US 6.1 - TPE-41\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como secretaria quiero poder cargar d\'edas y horarios de un m\'e9dico para informar a los pacientes los turnos disponibles.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Se debe poder cargar en el sistema los d\'edas y horarios del medico con el que trabaje.\par
+{\pntext\f2\'B7\tab}Luego se debe poder informar al paciente los mismos.\par
+
+\pard\sa200\sl276\slmult1\b\fs26\par
+User Story Specification: US 6.2 - TPE-45\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como secretaria quiero cargar turnos para cada m\'e9dico con los que trabajo para que los m\'e9dicos sepan los turnos que tienen.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se debe poder cargar el turno del paciente en el sistema.\par
+\b\fs26\par
+User Story Specification: US 6.3 - TPE-48\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como secretaria quiero definir la franja horaria de un d\'eda determinado para que el cliente vea la disponibilidad del mismo.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 La secretaria debe cargar una franja horaria disponible para luego poder ser mostrada al paciente.\par
+\b\fs26\par
+User Story Specification: US 6.4 - TPE-44\par
+\b0\fs24 1. Descripci\'f3n\fs22\par
+Yo como secretaria quiero cancelar o reagendar turnos para reorganizar el calendario del medico.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Se debe poder eliminar un turno del sistema y reagendarlo (o no).\par
+\b\fs26\par
+User Story Specification: US 6.5 - TPE-46\par
+\b0\fs24 1. Descripci\'f3n\par
+\fs22 Yo como secretaria quiero listar todos los turnos venideros de los m\'e9dicos asociados para facilitar la organizaci\'f3n de horarios.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Agregar a una especie de lista los turnos de los medicos con el que trabaja\par
+{\pntext\f2\'B7\tab}Debera poder filtrar por:     \par
+
+\pard\sa200\sl276\slmult1\tab    Medico\par
+               Turno(Ma\'f1ana o tarde)        \par
+               Rango de dias\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1 Debe poder ser guardada y generada de forma periodica\par
+{\pntext\f2\'B7\tab}Se debe poder imprimir automaticamente\par
+
+\pard\sa200\sl276\slmult1\par
+\b\fs26 User Story Specification: US 7 - TPE-26\par
+\b0\fs24 1. Descripci\'f3n\b\fs26\par
+\b0\fs22 Yo como m\'e9dico o secretaria quiero tener acceso a los turnos mediante un portal para estar al tanto de los mismos\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 Usuario y Contrase\'f1a dedicados a esta funcionalidad.\par
+\par
+\b\fs26 User Story Specification: US 8 - TPE-27\par
+\b0\fs24 1. Descripci\'f3n\b\fs26\par
+\b0\fs22 Yo como medico quiero poder listar todos mis turnos venideros para mejorar mi organizacion.\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+
+\pard{\pntext\f2\'B7\tab}{\*\pn\pnlvlblt\pnf2\pnindent0{\pntxtb\'B7}}\fi-360\li720\sa200\sl276\slmult1\fs22 Se deben cumplir las subtareas\par
+{\pntext\f2\'B7\tab}Se mostrara por pantalla los turnos listados\par
+
+\pard\sa200\sl276\slmult1\b\fs26\par
+User Story Specification: US 8.1 - TPE-29\par
+\b0\fs24 1. Descripci\'f3n\b\fs26\par
+\b0\fs22 Yo como medico quiero poder filtrar por turno para mejorar la busqueda\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debe poder filtrar y mostrar por turno, el cual debe ser Ma\'f1ana o Tarde.\par
+\b\fs26\par
+User Story Specification: US 8.2 - TPE-33\par
+\b0\fs24 1. Descripci\'f3n\b\fs26\par
+\b0\fs22 Yo como medico quiero poder filtrar por rango de dias para mejorar la busqueda de turnos\par
+\fs24 2. Criterios de Aceptaci\'f3n\par
+\fs22 El sistema debe poder filtrar y mostrar los turnos en el rango dado.\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\fs24\par
+\par
+\b\fs26\par
+\b0\fs22\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\f1\par
+}
+ 
