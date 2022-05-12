@@ -1,0 +1,3 @@
+class Medico extends Persona {
+
+}
