@@ -12,6 +12,8 @@
 	<script type="text/javascript" src="./js/util.js"></script>
 	<script type="text/javascript" src="./js/default.js"></script>
 	<script type="text/javascript" src="./js/storageManager.js"></script>
+
+	<script type="text/javascript" src="./js/interfaz.js" defer></script>
 	<script type="text/javascript" src="./js/turnofacil.js" defer></script>
 </head>
 <body>
@@ -27,7 +29,19 @@
 		</div>
 	</div>
 
-	<button onClick="cerrarSesion()">Cerrar sesion</button>
+	<div class="interfaz interfaz-medico">
+		<span>Logueado como: <span id="nombre-medico"></span></span>
+		<button onClick="cerrarSesion()">Cerrar sesion</button>
+
+		<h2>Tus proximos turnos son:</h2>
+		<div class="turnos-container">
+			
+		</div>
+	</div>
+
+	<div class="interfaz interfaz-secretaria">
+		<button onClick="cerrarSesion()">Cerrar sesion</button>
+	</div>	
 
 
 </body>

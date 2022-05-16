@@ -47,4 +47,31 @@ class StorageManager {
 	static guardarPacientes(pacientes) {
 		StorageManager._guardarListaObjetos("pacientes", pacientes);
 	}
+
+	static isLogged() {
+		return localStorage.getItem("logged");
+	}
+
+	static cerrarSesion() {
+		localStorage.removeItem("logged");
+		localStorage.removeItem("logged_as");
+		localStorage.removeItem("usuario");
+		localStorage.removeItem("contrasena");
+	}
+
+	static guardarLogin(login) {
+		localStorage.setItem("logged", "true");
+		localStorage.setItem("logged_as", login.logged_as);
+		localStorage.setItem("usuario", login.usuario);
+		localStorage.setItem("contrasena", login.contrasena);
+	}
+
+	static getTipoLogin() {
+		return localStorage.getItem("logged_as");
+	}
+
+	static getUsuario() {
+		return localStorage.getItem("usuario");
+	}
+
 }

@@ -78,23 +78,21 @@ function loginTrigger() {
 		return;
 	}
 
-	alert("Logueado como: " + resultado_login.tipo);
+	// alert("Logueado como: " + resultado_login.tipo);
 
-	localStorage.setItem("logged", "true");
-	localStorage.setItem("logged_as", resultado_login.tipo);
-	localStorage.setItem("usuario", usuario);
-	localStorage.setItem("contrasena", contrasena);
+	StorageManager.guardarLogin({
+		logged_as: resultado_login.tipo,
+		usuario,
+		contrasena
+	});
 
-	ocultarLogin();
+	Interfaz.ocultarLogin();
 	cargarPanel();
 }
 
 function cerrarSesion() {
-	localStorage.removeItem("logged");
-	localStorage.removeItem("logged_as");
-	localStorage.removeItem("usuario");
-	localStorage.removeItem("contrasena");
-	mostrarLogin();
+	StorageManager.cerrarSesion();
+	Interfaz.mostrarLogin();
 }
 
 
@@ -177,9 +175,8 @@ function cargarPanel() {
 		for (medico of medicos)
 			medico.generarTurnosRandom(pacientes);
 	}
-	else {
+	else
 		asignarTurnosAMedicos(turnosCompletos, medicos);
-	}
 
 	// Actualizar turnos ya pasados y agregar mas si es necesario
 
@@ -194,23 +191,38 @@ function cargarPanel() {
 
 	// En este punto esta todo cargado y actualizado
 
-	
+	if (StorageManager.getTipoLogin() == "medico")
+	{
+		// Configurar interfaz medico
 
-}
+		Interfaz.setLoginMedico(StorageManager.getUsuario());
 
+		function indiceMedicoPorUsuario(usuario) {
+			for (let i = 0; i < medicos.length; i++)
+				if (medicos[i].usuario == usuario)
+					return i;
+			return -1;
+		}
 
-function ocultarLogin() {
-	document.getElementById("login-div").style.display = "none";
-}
+		Interfaz.setTurnos(medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())].turnos);
 
-function mostrarLogin() {
-	document.getElementById("login-div").style.display = "block";
+	}
+	else
+	{
+		// Configurar interfaz secretaria
+	}
+
 }
 
 
 (function main() {
-	if (localStorage.getItem("logged") == "true") {
-		ocultarLogin();
+	if (StorageManager.isLogged()) {
+		Interfaz.ocultarLogin();
+		if (StorageManager.getTipoLogin() == "medico") {
+			Interfaz.mostrarInterfazMedico();
+		}
+		else
+			Intefaz.mostrarInterfazSecretaria();
 		cargarPanel();
 	}
 })();
