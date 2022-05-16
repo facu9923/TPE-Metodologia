@@ -5,9 +5,4 @@ class Persona {
 		this.nombre = nombre;
 	}
 
-	imprimirDatos() {
-		console.log("DNI: " + this.dni);
-		console.log("Nombre: " + this.nombre);
-	}
-
 }

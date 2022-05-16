@@ -3,15 +3,15 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>test</title>
+	<title>Administración TurnoFacil</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script type="text/javascript" src="./js/dataset.js"></script>
 	<script type="text/javascript" src="./js/persona.js"></script>
 	<script type="text/javascript" src="./js/medico.js"></script>
 	<script type="text/javascript" src="./js/secretaria.js"></script>
-	<script type="text/javascript" src="./js/paciente.js"></script>
-	<script type="text/javascript" src="./js/turno.js"></script>
 	<script type="text/javascript" src="./js/util.js"></script>
+	<script type="text/javascript" src="./js/default.js"></script>
+	<script type="text/javascript" src="./js/storageManager.js"></script>
 	<script type="text/javascript" src="./js/turnofacil.js" defer></script>
 </head>
 <body>
@@ -22,10 +22,12 @@
 			<div class="sub-container">
 				<input type="text" name="user" placeholder="Usuario" id="user">
 				<input type="password" name="user" placeholder="Contraseña" id="pw">
-				<button onClick="login()">Login</button>
+				<button onClick="loginTrigger()">Login</button>
 			</div>
 		</div>
 	</div>
+
+	<button onClick="cerrarSesion()">Cerrar sesion</button>
 
 
 </body>
