@@ -88,7 +88,7 @@ function loginTrigger() {
 		contrasena
 	});
 
-	Interfaz.mostrarInterfazRelevante(medicos);
+	Interfaz.mostrarInterfazRelevante(medicos, pacientes);
 }
 
 function cerrarSesion() {
@@ -187,6 +187,6 @@ function asignarTurnosAMedicos(turnosCompletos, medicos) {
 
 	// En este punto esta todo cargado y actualizado
 
-	Interfaz.mostrarInterfazRelevante(medicos);
+	Interfaz.mostrarInterfazRelevante(medicos, pacientes);
 
 })();

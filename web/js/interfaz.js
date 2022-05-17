@@ -14,18 +14,26 @@ Interfaz.setLoginMedico = function(nombre) {
 	document.getElementById("nombre-medico").innerHTML = nombre;
 }
 
-Interfaz.setTurnos = function(turnos) {
+function dni_paciente_a_nombre(pacientes, dni) {
+	for (paciente of pacientes)
+		if (paciente.dni == dni)
+			return paciente.nombre;
+	return null;
+}
+
+Interfaz.setTurnos = function(turnos, pacientes) {
 	const contenedorTurnos = document.querySelector(".turnos-container");
 	contenedorTurnos.innerHTML="";
 
 	for (turno of turnos) {
 		const dni_paciente = turno.dni_paciente;
 		const timestamp = turno.timestamp;
+		const nombre_paciente = dni_paciente_a_nombre(pacientes, dni_paciente);
 
 		const fecha = new Date(timestamp);
 
 		const parrafo = document.createElement("p");
-		parrafo.innerHTML = "DNI Paciente: " + dni_paciente + " - Fecha: " + fecha.toLocaleDateString() + " - Hora: " + fecha.toLocaleTimeString();
+		parrafo.innerHTML = "Paciente: " + nombre_paciente + " - Fecha: " + fecha.toLocaleDateString() + " - Hora: " + fecha.toLocaleTimeString();
 		contenedorTurnos.appendChild(parrafo);
 	}
 }
@@ -42,7 +50,7 @@ Interfaz.mostrarInterfazSecretaria = function() {
 	document.querySelector(".interfaz-secretaria").style.display = "block";
 }
 
-Interfaz.mostrarInterfazRelevante = function(medicos) {
+Interfaz.mostrarInterfazRelevante = function(medicos, pacientes) {
 
 	if (!StorageManager.isLogged())
 	{
@@ -64,7 +72,7 @@ Interfaz.mostrarInterfazRelevante = function(medicos) {
 			return -1;
 		}
 
-		Interfaz.setTurnos(medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())].turnos);
+		Interfaz.setTurnos(medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())].turnos, pacientes);
 	}
 
 	else
