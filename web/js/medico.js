@@ -1,6 +1,6 @@
 class Medico extends Persona {
 
-	constructor(dni, nombre, usuario, contrasena, matricula) {
+	constructor(dni, nombre, usuario, contrasena) {
 		super(dni, nombre);
 		this.usuario = usuario;
 		this.contrasena = contrasena;
@@ -29,7 +29,13 @@ class Medico extends Persona {
 
 	generarTurnosRandom(listaPacientes) {
 
-		const date = new Date();
+		let date = new Date();
+
+		// Si ya habia turnos creados, seguir desde el ultimo...
+
+		if (this.turnos.length) {
+			date = new Date(this.turnos[this.turnos.length-1].timestamp);
+		}
 
 		// Para que no afecten al timestamp del turno...
 		date.setMinutes(0);
@@ -37,10 +43,10 @@ class Medico extends Persona {
 		date.setMilliseconds(0);
 
 		/*
-		 * Generar entre 40 y 60 turnos corridos
+		 * Generar entre 30 y 45 turnos corridos
 		 * (Es dificil encontrar un turno muy cercano)
 		 */
-		for (let i = this.turnos.length; i < enteroRandom(40, 60); i++) {
+		for (let i = this.turnos.length; i < enteroRandom(30, 45); i++) {
 
 			proxTurnoDate(date);
 

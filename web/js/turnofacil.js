@@ -1,3 +1,7 @@
+let medicos;
+let pacientes;
+let secretarias;
+
 /**
  * Retorna lista con pacientes aleatorios
  */
@@ -78,21 +82,18 @@ function loginTrigger() {
 		return;
 	}
 
-	// alert("Logueado como: " + resultado_login.tipo);
-
 	StorageManager.guardarLogin({
 		logged_as: resultado_login.tipo,
 		usuario,
 		contrasena
 	});
 
-	Interfaz.ocultarLogin();
-	cargarPanel();
+	Interfaz.mostrarInterfazRelevante(medicos);
 }
 
 function cerrarSesion() {
 	StorageManager.cerrarSesion();
-	Interfaz.mostrarLogin();
+	Interfaz.mostrarInterfazRelevante();
 }
 
 
@@ -143,13 +144,8 @@ function asignarTurnosAMedicos(turnosCompletos, medicos) {
 }
 
 
-// PARA DEBUG
-let medicos;
-let pacientes;
-let secretarias;
 
-
-function cargarPanel() {
+(function main() {
 
 	medicos = DEFAULT.medicos;
 	secretarias = DEFAULT.secretarias;
@@ -191,38 +187,6 @@ function cargarPanel() {
 
 	// En este punto esta todo cargado y actualizado
 
-	if (StorageManager.getTipoLogin() == "medico")
-	{
-		// Configurar interfaz medico
+	Interfaz.mostrarInterfazRelevante(medicos);
 
-		Interfaz.setLoginMedico(StorageManager.getUsuario());
-
-		function indiceMedicoPorUsuario(usuario) {
-			for (let i = 0; i < medicos.length; i++)
-				if (medicos[i].usuario == usuario)
-					return i;
-			return -1;
-		}
-
-		Interfaz.setTurnos(medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())].turnos);
-
-	}
-	else
-	{
-		// Configurar interfaz secretaria
-	}
-
-}
-
-
-(function main() {
-	if (StorageManager.isLogged()) {
-		Interfaz.ocultarLogin();
-		if (StorageManager.getTipoLogin() == "medico") {
-			Interfaz.mostrarInterfazMedico();
-		}
-		else
-			Intefaz.mostrarInterfazSecretaria();
-		cargarPanel();
-	}
 })();

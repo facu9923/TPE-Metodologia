@@ -25,6 +25,9 @@ body {
 
 .sub-container input {
 	display: block;
+	border: 1px solid grey;
+	border-radius: 5px;
+	padding: 8px 15px 8px 15px;
 }
 
 .sub-container * {
@@ -45,7 +48,7 @@ body {
 }
 
 .interfaz {
-	position:  absolute;
+	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
