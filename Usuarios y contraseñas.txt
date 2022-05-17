@@ -1,0 +1,18 @@
+Medicos:
+
+	usuario: daniel_cesareo
+	contraseña: 1234
+
+	usuario: humberto_sergio_eduardo
+	contraseña: 1234
+
+	usuario: noemi_de_las_nieves
+	contraseña: 1234
+
+Secretarias:
+
+	usuario: paula_herminda
+	contraseña: 1234
+
+	usuario: francisca_santina
+	contraseña: 1234
