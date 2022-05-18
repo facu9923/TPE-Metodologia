@@ -59,7 +59,13 @@ Interfaz.setTurnos = function(turnos, pacientes) {
 		const nombre_paciente = dni_paciente_a_nombre(pacientes, dni_paciente);
 		const fechaDateObject = new Date(timestamp);
 		
-		const hora = fechaDateObject.toLocaleTimeString();
+		let hora = fechaDateObject.toLocaleTimeString();
+
+		/*
+			Eliminar los segundos de la hora en formato hora:min:segs
+		*/
+		hora = hora.slice(0, -3);
+
 		const dia = fechaDateObject.toLocaleDateString();
 
 

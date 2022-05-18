@@ -37,6 +37,10 @@ class Medico extends Persona {
 			date = new Date(this.turnos[this.turnos.length-1].timestamp);
 		}
 
+		proxTurnoDate(date);
+		if (date.getHours() < DEFAULT.RANGO_HORARIO_TURNOS.MIN)
+			date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
+
 		// Para que no afecten al timestamp del turno...
 		date.setMinutes(0);
 		date.setSeconds(0);
