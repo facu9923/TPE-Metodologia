@@ -10,8 +10,9 @@ Interfaz.ocultarLogin = function() {
 	document.getElementById("login-div").style.display = "none";
 }
 
-Interfaz.setLoginMedico = function(nombre) {
+Interfaz.setNombre = function(nombre) {
 	document.getElementById("nombre-medico").innerHTML = nombre;
+	document.getElementById("nombre-secretaria").innerHTML = nombre;
 }
 
 function dni_paciente_a_nombre(pacientes, dni) {
@@ -21,20 +22,54 @@ function dni_paciente_a_nombre(pacientes, dni) {
 	return null;
 }
 
+Interfaz._crearElementoTurno = function(nombre_paciente, fecha, hora) {
+	const elementoTurno = document.createElement("div");
+	elementoTurno.classList.add("turno-container");
+	const elementoNombrePaciente = document.createElement("div");
+	elementoNombrePaciente.classList.add("nombre-paciente");
+	const elementoFechaTurno = document.createElement("div");
+	elementoFechaTurno.classList.add("fecha-turno");
+	const elementoHoraTurno = document.createElement("div");
+	elementoHoraTurno.classList.add("hora-turno");
+
+	elementoNombrePaciente.innerHTML = nombre_paciente;
+	elementoFechaTurno.innerHTML = fecha;
+	elementoHoraTurno.innerHTML = hora;
+
+	elementoTurno.appendChild(elementoNombrePaciente);
+	elementoTurno.appendChild(elementoFechaTurno);
+	elementoTurno.appendChild(elementoHoraTurno);
+
+	return elementoTurno;
+}
+
 Interfaz.setTurnos = function(turnos, pacientes) {
 	const contenedorTurnos = document.querySelector(".turnos-container");
 	contenedorTurnos.innerHTML="";
+
+	contenedorTurnos.appendChild(Interfaz._crearElementoTurno(
+		"Paciente",
+		"Día",
+		"Hora"
+	));
 
 	for (turno of turnos) {
 		const dni_paciente = turno.dni_paciente;
 		const timestamp = turno.timestamp;
 		const nombre_paciente = dni_paciente_a_nombre(pacientes, dni_paciente);
+		const fechaDateObject = new Date(timestamp);
+		
+		const hora = fechaDateObject.toLocaleTimeString();
+		const dia = fechaDateObject.toLocaleDateString();
 
-		const fecha = new Date(timestamp);
 
-		const parrafo = document.createElement("p");
-		parrafo.innerHTML = "Paciente: " + nombre_paciente + " - Fecha: " + fecha.toLocaleDateString() + " - Hora: " + fecha.toLocaleTimeString();
-		contenedorTurnos.appendChild(parrafo);
+		const elementoTurno = Interfaz._crearElementoTurno(
+			nombre_paciente,
+			dia,
+			hora
+		);
+
+		contenedorTurnos.appendChild(elementoTurno);
 	}
 }
 
@@ -63,7 +98,7 @@ Interfaz.mostrarInterfazRelevante = function(medicos, pacientes) {
 		// Configurar interfaz medico
 
 		Interfaz.mostrarInterfazMedico();
-		Interfaz.setLoginMedico(StorageManager.getUsuario());
+		Interfaz.setNombre(StorageManager.getUsuario());
 
 		function indiceMedicoPorUsuario(usuario) {
 			for (let i = 0; i < medicos.length; i++)
@@ -78,6 +113,7 @@ Interfaz.mostrarInterfazRelevante = function(medicos, pacientes) {
 	else
 	{
 		Interfaz.mostrarInterfazSecretaria();
+		Interfaz.setNombre(StorageManager.getUsuario());
 		// Configurar interfaz secretaria
 	}
 }

@@ -2,6 +2,7 @@
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
+	font-size: 20px;
 }
 
 body {
@@ -48,9 +49,45 @@ body {
 }
 
 .interfaz {
-	position: absolute;
+	position: relative;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.turnos-container {
+	display: inline-block;
+	position: relative;
+	left:  50%;
+	transform: translateX(-50%);
+	border-radius: 10px 10px 0 0;
+	box-shadow: 0 0 4px 1px grey;
+}
+
+.turno-container {
+	display: flex;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	width: 700px;
+}
+
+.turno-container > * {
+	flex: 1;
+} 
+
+.nombre-paciente {
+	padding-left: 10px;
+}
+
+.turno-container:first-child {
+	background: #dedede;
+	font-weight: bold;
+	border-radius: 10px 10px 0 0;
+}
+
+footer {
+	height: 70px;
 }

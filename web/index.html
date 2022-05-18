@@ -30,19 +30,29 @@
 	</div>
 
 	<div class="interfaz interfaz-medico">
-		<span>Logueado como: <span id="nombre-medico"></span></span>
+
+		<span">Logueado como médico: <span id="nombre-medico"></span></span>
 		<button onClick="cerrarSesion()">Cerrar sesion</button>
 
-		<h2>Tus proximos pacientes son:</h2>
+		<h1 style="font-size: 30px; margin-top:10px;">Tus proximos pacientes son:</h1>
 		<div class="turnos-container">
 			
+			<div class="turno-container">
+				<div class="nombre-paciente">Rosa María</div>
+				<div class="fecha-turno">24/05/2004</div>
+				<div class="hora-turno">17:00</div>
+			</div>
+
+
 		</div>
 	</div>
 
 	<div class="interfaz interfaz-secretaria">
+		<span>Logueado como secretaria: <span id="nombre-secretaria"></span></span>
 		<button onClick="cerrarSesion()">Cerrar sesion</button>
 	</div>	
 
+	<footer/>
 
 </body>
 </html>
