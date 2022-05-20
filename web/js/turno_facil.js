@@ -41,10 +41,13 @@ function comprobarCredenciales(usuario, contrasena) {
 			credenciales_validas: false
 		};
 
+        /**
+         * Nota: "persona" debería ser en este caso, un objeto médico o secretaria.
+         */
 		for (persona of lista) {
-			if (persona.usuario == usuario) {
+			if (persona.getUsuario() == usuario) {
 				resultado.encontrado = true;
-				if (persona.contrasena == contrasena)
+				if (persona.getContrasena() == contrasena)
 					resultado.credenciales_validas = true;
 				break;
 			}
@@ -114,12 +117,15 @@ function cerrarSesion() {
  * 			}	
  * 		]
  * ]
+ * Este formato sirve para guardar en el localStorage,
+ * vinculando los turnos (dni_paciente, timestamp) con el medico.
  */
 function obtenerTurnosCompletos(medicos) {
 	let turnosCompletos = [];
+
 	for (medico of medicos) {
 		turnosCompletos.push({
-			dni_medico: medico.dni,
+			dni_medico: medico.getDNI(),
 			lista_turnos: medico.getListaTurnos()
 		});
 	}
@@ -137,7 +143,7 @@ function asignarTurnosAMedicos(turnosCompletos, medicos) {
 	 */
 	function indiceMedico(dni) {
 		for (let i = 0; i < medicos.length; i++)
-			if (medicos[i].dni == dni)
+			if (medicos[i].getDNI() == dni)
 				return i;
 		return -1;
 	}

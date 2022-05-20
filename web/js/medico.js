@@ -2,39 +2,55 @@ class Medico extends Persona {
 
 	constructor(dni, nombre, usuario, contrasena) {
 		super(dni, nombre);
-		this.usuario = usuario;
-		this.contrasena = contrasena;
-		this.turnos = [];
+		this._usuario = usuario;
+		this._contrasena = contrasena;
+		this._turnos = [];
 	}
 
+    getUsuario() {
+        return this._usuario;
+    }
+
+    getContrasena() {
+        return this._contrasena;
+    }
+
 	getListaTurnos() {
-		return this.turnos;
+		/* slice sin argumentos retorna una copia del array */
+		return this._turnos.slice();
 	}
 
 	setListaTurnos(lista) {
-		this.turnos = lista;
+		this._turnos = lista;
 	}
 
 	agregarTurno(dni_paciente, timestamp) {
-		this.turnos.push({
+		this._turnos.push({
 			dni_paciente,
 			timestamp
 		});
 	}
 
+	/**
+	 * Elimina turnos de la lista, anteriores al timestamp
+	 */
 	eliminarTurnosAntesDe(timestamp) {
-		while(this.turnos.length && this.turnos[0].timestamp < timestamp)
-			this.turnos.shift();
+		while(this._turnos.length && this._turnos[0].timestamp < timestamp)
+			this._turnos.shift();
 	}
 
+	/**
+	 * Genera turnos aleatorios con la lista de pacientes brindada,
+	 * hasta llegar a tener entre 30 y 45 turnos en tal lista.
+	 */
 	generarTurnosRandom(listaPacientes) {
 
 		let date = new Date();
 
 		// Si ya habia turnos creados, seguir desde el ultimo...
 
-		if (this.turnos.length) {
-			date = new Date(this.turnos[this.turnos.length-1].timestamp);
+		if (this._turnos.length) {
+			date = new Date(this._turnos[this._turnos.length-1].timestamp);
 		}
 
 		proxTurnoDate(date);
@@ -50,7 +66,7 @@ class Medico extends Persona {
 		 * Generar entre 30 y 45 turnos corridos
 		 * (Es dificil encontrar un turno muy cercano)
 		 */
-		for (let i = this.turnos.length; i < enteroRandom(30, 45); i++) {
+		for (let i = this._turnos.length; i < enteroRandom(30, 45); i++) {
 
 			proxTurnoDate(date);
 
@@ -59,12 +75,9 @@ class Medico extends Persona {
 				continue;
 
 			this.agregarTurno(
-				listaPacientes[enteroRandom(0, listaPacientes.length-1)].dni,
+				listaPacientes[enteroRandom(0, listaPacientes.length-1)].getDNI(),
 				date.getTime()
 			);
 		}
-
-
 	}
-
 }

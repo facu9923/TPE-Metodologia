@@ -33,15 +33,22 @@ class StorageManager {
 		StorageManager._guardarListaObjetos("turnos", turnos);
 	}
 
-	/**
-	 * Retorna (null) o una lista de objetos de la forma:
-	 * {
-	 * 		dni,
-	 * 		nombre
-	 * }
-	 */
 	static cargarPacientes() {
-		return StorageManager._cargarListaObjetos("pacientes");
+		const listaPacientes = StorageManager._cargarListaObjetos("pacientes");
+
+        if (listaPacientes == null)
+            return null;
+        /*
+        listaPacientes es una lista de objetos Persona, pero sin sus métodos
+        por haber sido convertidos a JSON, por lo tanto hay que "agregarselos"
+        */
+        const listaPacientesConMetodos = [];
+        for (let paciente of listaPacientes) {
+            listaPacientesConMetodos.push(
+                new Persona(paciente._dni, paciente._nombre)
+            );
+        }
+        return listaPacientesConMetodos;
 	}
 
 	static guardarPacientes(pacientes) {

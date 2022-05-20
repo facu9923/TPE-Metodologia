@@ -1,8 +1,16 @@
 class Persona {
 
 	constructor(dni, nombre) {
-		this.dni = dni;
-		this.nombre = nombre;
+		this._dni = dni;
+		this._nombre = nombre;
+	}
+
+	getNombre() {
+		return this._nombre;
+	}
+
+	getDNI() {
+		return this._dni;
 	}
 
 }

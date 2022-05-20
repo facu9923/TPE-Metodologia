@@ -2,8 +2,16 @@ class Secretaria extends Persona {
 
 	constructor(dni, nombre, usuario, contrasena) {
 		super(dni, nombre);
-		this.usuario = usuario;
-		this.contrasena = contrasena;
+		this._usuario = usuario;
+		this._contrasena = contrasena;
 	}
+
+    getUsuario() {
+        return this._usuario;
+    }
+
+    getContrasena() {
+        return this._contrasena;
+    }
 
 }
