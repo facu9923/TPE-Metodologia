@@ -76,7 +76,11 @@ body {
 
 .turno-container > * {
 	flex: 1;
-} 
+}
+
+.turno-container > .nombre-paciente {
+	flex-grow: 3;
+}
 
 .nombre-paciente {
 	padding-left: 10px;
