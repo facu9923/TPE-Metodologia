@@ -24,6 +24,16 @@ class Medico extends Persona {
         this._turnos = lista;
     }
 
+    eliminarTurno(timestamp) {
+        for (let i = 0; i < this._turnos.length; i++)
+            if (this._turnos[i].timestamp == timestamp) {
+                this._turnos.splice(i, 1);
+                break;
+            }
+
+        StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));        
+    }
+
     agregarTurno(dni_paciente, timestamp) {
         this._turnos.push({
             dni_paciente,

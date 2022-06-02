@@ -85,12 +85,6 @@ function loginTrigger() {
         return;
     }
 
-    /* Deshabilitar ingreso de secretarias no implementado */
-    if (resultado_login.tipo == "secretaria") {
-        alert("El ingreso de secretarias no esta implementado!");
-        return;
-    }
-
     StorageManager.guardarLogin({
         logged_as: resultado_login.tipo,
         usuario,
@@ -196,6 +190,7 @@ function asignarTurnosAMedicos(turnosCompletos, medicos) {
     turnosCompletos = obtenerTurnosCompletos(medicos);
     StorageManager.guardarTurnos(turnosCompletos);
 
+    Interfaz.setListaMedicos(medicos);
 
     // En este punto esta todo cargado y actualizado
 

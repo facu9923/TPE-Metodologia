@@ -19,7 +19,22 @@ class Interfaz {
      * Retorna un elemento HTML para insertar en la tabla de pacientes
      * que ven los médicos.
      */
-    static _crearElementoTurno(nombre_paciente, fecha, hora) {
+    static _crearElementoTurno(nombre_paciente, timestamp, medico, cancelar = true, reagendar = false) {
+
+        let hora = "Hora";
+        let fecha = "Dia";
+
+        if (timestamp) {
+            const fechaDateObject = new Date(timestamp); 
+            hora = fechaDateObject.toLocaleTimeString();
+            fecha = fechaDateObject.toLocaleDateString();
+            hora = Interfaz._eliminarSegundos(hora);
+        }
+
+        let container = ".turnos-container";
+        if (reagendar)
+            container = "#administracion_medico";
+
         const elementoTurno = document.createElement("div");
         elementoTurno.classList.add("turno-container");
         const elementoNombrePaciente = document.createElement("div");
@@ -37,7 +52,50 @@ class Interfaz {
         elementoTurno.appendChild(elementoFechaTurno);
         elementoTurno.appendChild(elementoHoraTurno);
 
+        if (!timestamp) {
+            let botonFicticio = document.createElement("button");
+            botonFicticio.classList.add("boton_cancelar");
+            botonFicticio.classList.add("invisible");
+            elementoTurno.appendChild(botonFicticio);
+
+            if (reagendar) {
+                botonFicticio = document.createElement("button");
+                botonFicticio.classList.add("boton_cancelar");
+                botonFicticio.classList.add("invisible");
+                elementoTurno.appendChild(botonFicticio);
+            }
+
+        }
+
+        if (cancelar && medico) {
+            const botonCancelar = document.createElement("button");
+            botonCancelar.innerHTML = "Cancelar";
+            botonCancelar.classList.add("boton_cancelar")
+            botonCancelar.setAttribute("onClick", `Interfaz.borrarTurno("${medico.getUsuario()}", ${timestamp}, "${container}")`);
+            elementoTurno.appendChild(botonCancelar);
+        }
+
+        if (reagendar && medico) {
+            const botonReagendar = document.createElement("button");
+            botonReagendar.innerHTML = "Reagendar";
+            botonReagendar.classList.add("boton_reagendar");
+            botonReagendar.setAttribute("onClick", ``);
+            elementoTurno.appendChild(botonReagendar);
+        }
+
         return elementoTurno;
+    }
+
+    static borrarTurno(usuario_medico, timestamp, container) {
+
+        const medico = get_medico_por_usuario(medicos, usuario_medico);
+
+        medico.eliminarTurno(timestamp);
+
+        if (container == "#administracion_medico")
+            Interfaz.setTurnos(medico, pacientes, container, true, true);
+        else
+            Interfaz.setTurnos(medico, pacientes, container, true, false);
     }
 
     static _eliminarSegundos(hora) {
@@ -66,18 +124,16 @@ class Interfaz {
      * los médicos.
      * La tabla se resetea antes de comenzar a insertar.
      */
-    static setTurnos(turnos, pacientes) {
+    static setTurnos(medico, pacientes, container = ".turnos-container", cancelar, reagendar) {
 
-        const contenedorTurnos = document.querySelector(".turnos-container");
+        const contenedorTurnos = document.querySelector(container);
         contenedorTurnos.innerHTML="";
 
         contenedorTurnos.appendChild(Interfaz._crearElementoTurno(
-            "Paciente",
-            "Día",
-            "Hora"
+            "Paciente"
         ));
 
-        for (let turno of turnos) {
+        for (let turno of medico.getListaTurnos()) {
             const dni_paciente = turno.dni_paciente;
             const timestamp = turno.timestamp;
             const nombre_paciente = dni_paciente_a_nombre(pacientes, dni_paciente);
@@ -92,8 +148,10 @@ class Interfaz {
 
             const elementoTurno = Interfaz._crearElementoTurno(
                 nombre_paciente,
-                dia,
-                hora
+                timestamp,
+                medico,
+                cancelar,
+                reagendar
             );
 
             contenedorTurnos.appendChild(elementoTurno);
@@ -135,7 +193,7 @@ class Interfaz {
             }
 
             Interfaz.setTurnos(
-                medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())].getListaTurnos(),
+                medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())],
                 pacientes
             );
         }
@@ -147,6 +205,30 @@ class Interfaz {
         }
     }
 
+    static _crearListaBotonesMedicos(medicos) {
+        const listaMedicos = document.createElement("div");
+        listaMedicos.setAttribute("id", "listaMedicos");
+        for (let medico of medicos) {
+            const medicoItem = document.createElement("button");
+            medicoItem.setAttribute("onClick", `Interfaz.medicoSeleccionado("${medico.getUsuario()}")`);
+            medicoItem.innerHTML = medico.getNombre();
+            listaMedicos.appendChild(medicoItem);
+        }
+        return listaMedicos;
+    }
+
+    static setListaMedicos(medicos) {
+        const listaMedicos = Interfaz._crearListaBotonesMedicos(medicos);
+        document.getElementById("seleccion_medico").appendChild(listaMedicos);
+    }
+
+    static medicoSeleccionado(usuario_medico) {
+        
+        document.getElementById("seleccion_medico").style.display = "none";        
+
+        Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes, "#administracion_medico", true, true);
+
+    }
 }
 
 /**
@@ -158,4 +240,10 @@ function dni_paciente_a_nombre(pacientes, dni) {
         if (paciente.getDNI() == dni)
             return paciente.getNombre();
     return null;
+}
+
+function get_medico_por_usuario(medicos, usuario) {
+    for (let i = 0; i < medicos.length; i++)
+        if (medicos[i].getUsuario() == usuario)
+            return medicos[i];
 }

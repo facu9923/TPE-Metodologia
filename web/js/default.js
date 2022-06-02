@@ -6,7 +6,8 @@ const DEFAULT = {
     ],
     secretarias: [
         new Secretaria(42064076, "Paula Herminda", "paula_herminda", "1234"),
-        new Secretaria(34597933, "Francisca Santina", "francisca_santina", "1234")
+        new Secretaria(34597933, "Francisca Santina", "francisca_santina", "1234"),
+        new Secretaria(1, "a", "a", "a")
     ],
     RANGO_HORARIO_TURNOS: {
         MIN: 8,
