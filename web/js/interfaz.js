@@ -129,8 +129,14 @@ class Interfaz {
         const contenedorTurnos = document.querySelector(container);
         contenedorTurnos.innerHTML="";
 
+        // _crearElementoTurno(nombre_paciente, timestamp, medico, cancelar = true, reagendar = false) {
+
         contenedorTurnos.appendChild(Interfaz._crearElementoTurno(
-            "Paciente"
+            "Paciente",
+            null,
+            null,
+            cancelar,
+            reagendar
         ));
 
         for (let turno of medico.getListaTurnos()) {
@@ -225,6 +231,7 @@ class Interfaz {
     static medicoSeleccionado(usuario_medico) {
         
         document.getElementById("seleccion_medico").style.display = "none";        
+        document.getElementById("retroceso").style.display = "block";
 
         Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes, "#administracion_medico", true, true);
 

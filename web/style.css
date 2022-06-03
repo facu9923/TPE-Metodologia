@@ -139,13 +139,10 @@ footer {
     border-radius: 15px;
 }
 
-#seleccionMedico {
-	padding-top: 30px;
-}
-
-#listaMedicos {
-	display: flex;
-	flex-direction: column;
+#listaMedicos > button {
+    display: inline-block;
+    margin: 15px;
+    padding: 20px;
 }
 
 .boton_cancelar {
@@ -175,4 +172,14 @@ footer {
 
 button {
 	cursor: pointer;
+}
+
+#retroceso {
+    display: none;
+    margin-top: 15px;
+    background: #17F4FF;
+    border-radius: 150px 0px 0px 150px;
+    padding: 5px;
+    position: fixed;
+    z-index: 5;
 }
