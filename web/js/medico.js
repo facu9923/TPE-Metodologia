@@ -34,6 +34,48 @@ class Medico extends Persona {
         StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));        
     }
 
+    modificarTimestampTurno(timestamp_viejo, timestamp_nuevo) {
+
+        let dni_paciente;
+
+        for (let i = 0; i < this._turnos.length; i++) {
+
+            if (this._turnos[i].timestamp == timestamp_viejo) {
+                dni_paciente = this._turnos[i].dni_paciente;
+                this._turnos.splice(i, 1);
+                break;
+            }
+
+        }
+
+        if (!dni_paciente) alert("fjdslkfsedkfg");
+        
+        // Insertar
+
+        let i = 0;
+        let insertado = false;
+
+        while (i < this._turnos.length && !insertado) {
+
+            if (timestamp_nuevo < this._turnos[i].timestamp) {
+                this._turnos.splice(i, 0, {
+                    dni_paciente,
+                    "timestamp": timestamp_nuevo
+                });
+                insertado = true;
+            }
+
+            i++;
+        }
+
+        if (!insertado)
+            this._turnos.push({
+                dni_paciente,
+                "timestamp": timestamp_nuevo
+            });
+
+    }
+
     agregarTurno(dni_paciente, timestamp) {
         this._turnos.push({
             dni_paciente,

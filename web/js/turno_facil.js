@@ -30,6 +30,9 @@ function proxTurnoDate(date) {
         date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
         date.setDate(date.getDate() + 1);
     }
+    if (date.getHours() < DEFAULT.RANGO_HORARIO_TURNOS.MIN) {
+        date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
+    }
 }
 
 function comprobarCredenciales(usuario, contrasena) {
@@ -161,6 +164,82 @@ function asignarTurnosAMedicos(turnosCompletos, medicos) {
 }
 
 
+function cantidadTurnosEntre(a_timestamp, b_timestamp) {
+
+    let a_date = new Date(a_timestamp);
+    proxTurnoDate(a_date);
+
+    let contador = 0;
+    while (true) {
+        if (a_date.getTime() != b_timestamp) {
+            contador ++;
+            proxTurnoDate(a_date);
+        }
+        else
+            break;
+    }
+    return contador;
+}
+
+function getTurnosDisponibles(medico) {
+    let turnosDisponibles = [];
+    const turnosMedico = medico.getListaTurnos();
+
+    let caca = new Date();
+
+    // Para que no afecten al timestamp del turno...
+    let codigo_asqueroso = false;
+    caca.setMinutes(0);
+    caca.setSeconds(0);
+    caca.setMilliseconds(0);
+    proxTurnoDate(caca);
+    if (caca.getTime() != turnosMedico[0].timestamp) {
+        codigo_asqueroso = true;
+        turnosMedico.unshift({
+            dni_paciente: "jajajajjaajaja",
+            timestamp: caca.getTime()
+        });
+    }
+
+    // Encontrar "huecos"
+
+    for (let i = 0; i < turnosMedico.length - 1; i++) {
+        let cantidad_huecos = cantidadTurnosEntre(turnosMedico[i].timestamp, turnosMedico[i+1].timestamp);
+        for (let hueco_n = 1; hueco_n <= cantidad_huecos; hueco_n++) {
+            let copiaTurnoBase = new Date(turnosMedico[i].timestamp);
+            // Sumar fedasfghuiu54hrecacapedopishtr
+            for (let i = 0; i < hueco_n; i++)
+                proxTurnoDate(copiaTurnoBase);
+            turnosDisponibles.push(copiaTurnoBase);
+        }
+    }
+
+    // Agregar algunos mas al final
+
+    let copiaUltimoTurno = new Date(turnosMedico[turnosMedico.length - 1].timestamp);
+    proxTurnoDate(copiaUltimoTurno);
+    turnosDisponibles.push(copiaUltimoTurno);
+
+    for (let i = 0; i < 2; i++) {
+        let copiaUltimo = new Date(turnosDisponibles[turnosDisponibles.length-1].getTime());
+        proxTurnoDate(copiaUltimo);
+        turnosDisponibles.push(copiaUltimo);
+    }
+
+    if (codigo_asqueroso)
+        turnosMedico.shift();
+
+    return turnosDisponibles;
+}
+
+function reagendarTurno(usuario_medico, timestamp_viejo, timestamp_nuevo) {
+    const medico = get_medico_por_usuario(medicos, usuario_medico);
+    medico.modificarTimestampTurno(timestamp_viejo, timestamp_nuevo);
+    StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));
+    document.getElementById("reasignar_popup").style.display = "none";
+    Interfaz.setTurnos(medico, pacientes, "#administracion_medico", true, true);
+    alert("Datos actualizados!");
+}
 
 (function main() {
 

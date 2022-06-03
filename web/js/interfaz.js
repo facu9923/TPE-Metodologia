@@ -79,11 +79,41 @@ class Interfaz {
             const botonReagendar = document.createElement("button");
             botonReagendar.innerHTML = "Reagendar";
             botonReagendar.classList.add("boton_reagendar");
-            botonReagendar.setAttribute("onClick", ``);
+            botonReagendar.setAttribute("onClick", `Interfaz.mostrarInterfazReagendar("${medico.getUsuario()}", ${timestamp})`);
             elementoTurno.appendChild(botonReagendar);
         }
 
         return elementoTurno;
+    }
+
+    static mostrarInterfazReagendar(usuario_medico, timestamp_turno_seleccionado) {
+        document.getElementById("reasignar_popup").style.display = "block";
+
+        const lista_turnos = document.getElementById("lista_turnos_disponibles");
+        lista_turnos.innerHTML="";
+
+        let medico = get_medico_por_usuario(medicos, usuario_medico);
+
+        for (let turno_disponible of getTurnosDisponibles(medico)) {
+
+            let container = document.createElement("div");
+            let dia = document.createElement("div");
+            let hora = document.createElement("div");
+            let boton = document.createElement("button");
+            boton.classList.add("boton_turno_reasignacion");
+            container.appendChild(dia);
+            container.appendChild(hora);
+            container.appendChild(boton);
+
+            dia.innerHTML = turno_disponible.toLocaleDateString();
+            hora.innerHTML = Interfaz._eliminarSegundos(turno_disponible.toLocaleTimeString());
+            boton.innerHTML = "Seleccionar";
+
+            boton.setAttribute("onClick", `reagendarTurno("${usuario_medico}", ${timestamp_turno_seleccionado}, ${turno_disponible.getTime()})`);
+            
+            lista_turnos.appendChild(container);
+        }
+
     }
 
     static borrarTurno(usuario_medico, timestamp, container) {
@@ -236,21 +266,10 @@ class Interfaz {
         Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes, "#administracion_medico", true, true);
 
     }
+
+    static ocultarReasignacionPopup() {
+        document.getElementById("reasignar_popup").style.display = "none";
+    }
+
 }
 
-/**
- * Dados una lista de pacientes y un dni,
- * busca linealmente para encontrar el nombre asociado al dni.
- */
-function dni_paciente_a_nombre(pacientes, dni) {
-    for (paciente of pacientes)
-        if (paciente.getDNI() == dni)
-            return paciente.getNombre();
-    return null;
-}
-
-function get_medico_por_usuario(medicos, usuario) {
-    for (let i = 0; i < medicos.length; i++)
-        if (medicos[i].getUsuario() == usuario)
-            return medicos[i];
-}
