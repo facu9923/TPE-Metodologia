@@ -71,31 +71,7 @@ function comprobarCredenciales(usuario, contrasena) {
 }
 
 
-function loginTrigger() {
 
-    const usuario = document.querySelector("#user").value;
-    const contrasena = document.querySelector("#pw").value;
-
-    const resultado_login = comprobarCredenciales(usuario, contrasena);
-
-    if (resultado_login.encontrado == false) {
-        alert("Usuario no encontrado!");
-        return;
-    }
-
-    if (resultado_login.credenciales_validas == false) {
-        alert("Contraseña incorrecta!");
-        return;
-    }
-
-    StorageManager.guardarLogin({
-        logged_as: resultado_login.tipo,
-        usuario,
-        contrasena
-    });
-
-    Interfaz.mostrarInterfazRelevante(medicos, pacientes);
-}
 
 function cerrarSesion() {
     StorageManager.cerrarSesion();

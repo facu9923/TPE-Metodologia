@@ -1,25 +1,56 @@
+const elemHTML = {
+    interfaz_login: document.querySelector("#interfaz-div"),
+    interfaz_general: document.querySelector("#interfaz-general"),
+    logueado_como: document.querySelector("#logueado-como"),
+    btn_selec_medico: document.querySelector("#volver-seleccion-medico"),
+    h1_proximos_pacientes: document.querySelector("#h1-proximos-pacientes"),
+    contenedor_turnos: document.querySelector("#contenedor-turnos"),
+
+};
+
 class Interfaz {
 
     static mostrarLogin() {
-        document.querySelector(".login-div").style.display = "block";
-        document.querySelector(".interfaz-medico").style.display = "none";
-        document.querySelector(".interfaz-secretaria").style.display = "none";
+        elemHTML.interfaz_login.style.display = "block";
+        elemHTML.interfaz_general.style.display = "none";
     }
 
     static ocultarLogin() {
-        document.querySelector(".login-div").style.display = "none";
+        elemHTML.interfaz_login.style.display = "none";
+        elemHTML.interfaz_general.style.display = "block";
     }
 
-    static setNombre(nombre) {
-        document.getElementById("nombre-medico").innerHTML = nombre;
-        document.getElementById("nombre-secretaria").innerHTML = nombre;
+    static mostrarInterfazGeneral(tipo) {
+        Interfaz.ocultarLogin();
+
+        if (tipo == "medico") {
+            elemHTML.btn_selec_medico.style.display = "none";
+            elemHTML.h1_proximos_pacientes.style.display = "block";
+        }
+        else if (tipo == "secretaria")
+        {
+            elemHTML.btn_selec_medico.style.display = "block";
+            elemHTML.h1_proximos_pacientes.style.display = "none";
+        }
+    }
+
+    static setLogueadoComo(nombre, tipo) {
+        if (tipo)
+            elemHTML.logueado_como.innerHTML = tipo + ": ";
+        else
+            elemHTML.logueado_como.innerHTML = "";
+
+        elemHTML.logueado_como.innerHTML += nombre;
     }
 
     /**
-     * Retorna un elemento HTML para insertar en la tabla de pacientes
-     * que ven los médicos.
+     * Retorna un elemento HTML para insertar en la tabla
      */
-    static _crearElementoTurno(nombre_paciente, timestamp, medico, cancelar = true, reagendar = false) {
+    static _crearElementoTurno(nombre_paciente,
+                               timestamp,
+                               medico,
+                               boton_cancelar,
+                               boton_reagendar) {
 
         let hora = "Hora";
         let fecha = "Dia";
@@ -28,21 +59,17 @@ class Interfaz {
             const fechaDateObject = new Date(timestamp); 
             hora = fechaDateObject.toLocaleTimeString();
             fecha = fechaDateObject.toLocaleDateString();
-            hora = Interfaz._eliminarSegundos(hora);
+            hora = eliminarSegundos(hora);
         }
 
-        let container = ".turnos-container";
-        if (reagendar)
-            container = "#administracion_medico";
-
         const elementoTurno = document.createElement("div");
-        elementoTurno.classList.add("turno-container");
+        elementoTurno.classList.add("turno");
         const elementoNombrePaciente = document.createElement("div");
-        elementoNombrePaciente.classList.add("nombre-paciente");
+        elementoNombrePaciente.classList.add("turno-nombre");
         const elementoFechaTurno = document.createElement("div");
-        elementoFechaTurno.classList.add("fecha-turno");
+        elementoFechaTurno.classList.add("turno-dia");
         const elementoHoraTurno = document.createElement("div");
-        elementoHoraTurno.classList.add("hora-turno");
+        elementoHoraTurno.classList.add("turno-hora");
 
         elementoNombrePaciente.innerHTML = nombre_paciente;
         elementoFechaTurno.innerHTML = fecha;
@@ -52,34 +79,19 @@ class Interfaz {
         elementoTurno.appendChild(elementoFechaTurno);
         elementoTurno.appendChild(elementoHoraTurno);
 
-        if (!timestamp) {
-            let botonFicticio = document.createElement("button");
-            botonFicticio.classList.add("boton_cancelar");
-            botonFicticio.classList.add("invisible");
-            elementoTurno.appendChild(botonFicticio);
-
-            if (reagendar) {
-                botonFicticio = document.createElement("button");
-                botonFicticio.classList.add("boton_cancelar");
-                botonFicticio.classList.add("invisible");
-                elementoTurno.appendChild(botonFicticio);
-            }
-
-        }
-
-        if (cancelar && medico) {
-            const botonCancelar = document.createElement("button");
+        if (boton_cancelar) {
+            const botonCancelar = document.createElement("div");
             botonCancelar.innerHTML = "Cancelar";
-            botonCancelar.classList.add("boton_cancelar")
-            botonCancelar.setAttribute("onClick", `Interfaz.borrarTurno("${medico.getUsuario()}", ${timestamp}, "${container}")`);
+            botonCancelar.classList.add("boton_cancelar_turno");
+            botonCancelar.setAttribute("onClick", `Interfaz.onClick.borrarTurno("${medico.getUsuario()}", ${timestamp}, "${container}")`);
             elementoTurno.appendChild(botonCancelar);
         }
 
-        if (reagendar && medico) {
+        if (boton_reagendar) {
             const botonReagendar = document.createElement("button");
             botonReagendar.innerHTML = "Reagendar";
-            botonReagendar.classList.add("boton_reagendar");
-            botonReagendar.setAttribute("onClick", `Interfaz.mostrarInterfazReagendar("${medico.getUsuario()}", ${timestamp})`);
+            botonReagendar.classList.add("boton_reagendar_turno");
+            botonReagendar.setAttribute("onClick", `Interfaz.onClick.reagendarTurno("${medico.getUsuario()}", ${timestamp})`);
             elementoTurno.appendChild(botonReagendar);
         }
 
@@ -116,57 +128,22 @@ class Interfaz {
 
     }
 
-    static borrarTurno(usuario_medico, timestamp, container) {
-
-        const medico = get_medico_por_usuario(medicos, usuario_medico);
-
-        medico.eliminarTurno(timestamp);
-
-        if (container == "#administracion_medico")
-            Interfaz.setTurnos(medico, pacientes, container, true, true);
-        else
-            Interfaz.setTurnos(medico, pacientes, container, true, false);
-    }
-
-    static _eliminarSegundos(hora) {
-
-        try {
-            let a = hora.indexOf(":");
-            let b = hora.indexOf(":", a);
-            if (b != -1) {
-                let horaModif = hora.slice(0, b);
-                horaModif += hora.slice(b+3);
-                return horaModif;
-            }
-            return hora;
-        }
-        catch {
-            /* Por si algo falla, esto funcionaba cuando la hora
-             * no tenia AM y PM
-             */
-            return hora.slice(0, -3);
-        }
-
-    }
-
     /**
      * Insertar los turnos en la tabla para que los puedan ver
      * los médicos.
      * La tabla se resetea antes de comenzar a insertar.
      */
-    static setTurnos(medico, pacientes, container = ".turnos-container", cancelar, reagendar) {
+    static setTurnos(medico, pacientes, cancelar, reagendar) {
 
-        const contenedorTurnos = document.querySelector(container);
-        contenedorTurnos.innerHTML="";
+        elemHTML.contenedor_turnos.innerHTML = "";
 
-        // _crearElementoTurno(nombre_paciente, timestamp, medico, cancelar = true, reagendar = false) {
-
-        contenedorTurnos.appendChild(Interfaz._crearElementoTurno(
-            "Paciente",
-            null,
-            null,
-            cancelar,
-            reagendar
+        elemHTML.contenedor_turnos.appendChild(
+            Interfaz._crearElementoTurno(
+                "Paciente",
+                null,
+                null,
+                cancelar,
+                reagendar
         ));
 
         for (let turno of medico.getListaTurnos()) {
@@ -194,18 +171,6 @@ class Interfaz {
         }
     }
 
-    static mostrarInterfazMedico() {
-        Interfaz.ocultarLogin();
-        document.querySelector(".interfaz-medico").style.display = "block";
-        document.querySelector(".interfaz-secretaria").style.display = "none";
-    }
-
-    static mostrarInterfazSecretaria() {
-        Interfaz.ocultarLogin();
-        document.querySelector(".interfaz-medico").style.display = "none";
-        document.querySelector(".interfaz-secretaria").style.display = "block";
-    }
-
     static mostrarInterfazRelevante(medicos, pacientes) {
 
         if (!StorageManager.isLogged())
@@ -214,39 +179,31 @@ class Interfaz {
             return;
         }
 
+        Interfaz.mostrarInterfazGeneral();
+
         if (StorageManager.getTipoLogin() == "medico")
         {
             // Configurar interfaz medico
 
-            Interfaz.mostrarInterfazMedico();
-            Interfaz.setNombre(StorageManager.getUsuario());
-
-            function indiceMedicoPorUsuario(usuario) {
-                for (let i = 0; i < medicos.length; i++)
-                    if (medicos[i].getUsuario() == usuario)
-                        return i;
-                return -1;
-            }
+            Interfaz.setLogueadoComo(StorageManager.getUsuario(), "médico");
 
             Interfaz.setTurnos(
-                medicos[indiceMedicoPorUsuario(StorageManager.getUsuario())],
+                get_medico_por_usuario(StorageManager.getUsuario()),
                 pacientes
             );
         }
-        else
-        {
-            Interfaz.mostrarInterfazSecretaria();
-            Interfaz.setNombre(StorageManager.getUsuario());
-            // Configurar interfaz secretaria
+        else // secretaria
+        {            
+            Interfaz.setLogueadoComo(StorageManager.getUsuario(), "secretaria");
         }
     }
 
     static _crearListaBotonesMedicos(medicos) {
         const listaMedicos = document.createElement("div");
-        listaMedicos.setAttribute("id", "listaMedicos");
+        listaMedicos.setAttribute("id", "lista_medicos");
         for (let medico of medicos) {
             const medicoItem = document.createElement("button");
-            medicoItem.setAttribute("onClick", `Interfaz.medicoSeleccionado("${medico.getUsuario()}")`);
+            medicoItem.setAttribute("onClick", `Interfaz.onClick.medicoSeleccionado("${medico.getUsuario()}")`);
             medicoItem.innerHTML = medico.getNombre();
             listaMedicos.appendChild(medicoItem);
         }
@@ -258,18 +215,52 @@ class Interfaz {
         document.getElementById("seleccion_medico").appendChild(listaMedicos);
     }
 
-    static medicoSeleccionado(usuario_medico) {
-        
-        document.getElementById("seleccion_medico").style.display = "none";        
-        document.getElementById("retroceso").style.display = "block";
-
-        Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes, "#administracion_medico", true, true);
-
-    }
-
     static ocultarReasignacionPopup() {
         document.getElementById("reasignar_popup").style.display = "none";
     }
 
-}
+    onClick = {
 
+        login_button: () => {
+
+            const usuario = document.querySelector("#user").value;
+            const contrasena = document.querySelector("#pw").value;
+        
+            const resultado_login = comprobarCredenciales(usuario, contrasena);
+        
+            if (resultado_login.encontrado == false) {
+                alert("Usuario no encontrado!");
+                return;
+            }
+        
+            if (resultado_login.credenciales_validas == false) {
+                alert("Contraseña incorrecta!");
+                return;
+            }
+        
+            StorageManager.guardarLogin({
+                logged_as: resultado_login.tipo,
+                usuario,
+                contrasena
+            });
+        
+            Interfaz.mostrarInterfazRelevante(medicos, pacientes);
+
+        },
+        medicoSeleccionado(usuario_medico) {
+        
+            document.getElementById("seleccion_medico").style.display = "none";        
+            document.getElementById("retroceso").style.display = "block";
+    
+            Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes, "#administracion_medico", true, true);
+    
+        },
+        cerrarSesion() {
+
+        },
+        volver_a_seleccion_medico() {
+            
+        }
+    }
+
+}

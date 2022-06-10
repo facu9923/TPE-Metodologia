@@ -18,37 +18,33 @@
 	</head>
 	<body>
 
-        <div class="login-div">
-            <span>Login</span>
-            <div class="sub-container">
-                <input type="text" name="user" placeholder="Usuario" id="user">
-                <input type="password" name="user" placeholder="Contraseña" id="pw">
-                <button onClick="loginTrigger()">Login</button>
-            </div>
-        </div>
-
-		<div class="interfaz interfaz-medico">
-
-			<span>Logueado como médico: <span id="nombre-medico"></span></span>
-			<button onClick="cerrarSesion()" class="cerrar-sesion">Cerrar sesion</button>
-
-			<div style="padding-top: 25px">
-                <h1 style="font-size: 30px; margin-top:10px;">Tus proximos pacientes son:</h1>
-            </div>
-
-			<div class="turnos-container"></div>
+        <div id="interfaz-login">
+			<div>
+				<span>Login</span>
+				<div>
+					<input type="text" name="user" placeholder="Usuario" id="user">
+					<input type="password" name="user" placeholder="Contraseña" id="pw">
+					<button onClick="Interfaz.onClick.login_button()">Login</button>
+				</div>
+			</div>
 		</div>
 
-		<div class="interfaz interfaz-secretaria">
-			<span>Logueado como secretaria: <span id="nombre-secretaria"></span></span>
-			<button onClick="cerrarSesion()" class="cerrar-sesion">Cerrar sesion</button>
-            <div>
-                <button onClick="retroceso()" id="retroceso">Seleccion médico</button>
-            </div>
+		<div id="interfaz-general">
 
-			<div id="seleccion_medico"></div>
-			<div id="administracion_medico"></div>
+			<span>Logueado como 
+				<span id="logueado-como"></span>
+			</span>
 
+			<button id="boton-cerrar-sesion" onClick="Interfaz.onClick.cerrarSesion()">Cerrar sesión</button>
+			<button id="volver-seleccion-medico" onClick="">Seleccion médico</button>
+
+			<div id="h1-proximos-pacientes">
+				Tus proximos pacientes son:
+			</div>
+
+			<div id="contenedor-turnos">
+
+			</div>
 		</div>
 
         <div id="reasignar_popup">
