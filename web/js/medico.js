@@ -30,8 +30,6 @@ class Medico extends Persona {
                 this._turnos.splice(i, 1);
                 break;
             }
-
-        StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));        
     }
 
     modificarTimestampTurno(timestamp_viejo, timestamp_nuevo) {

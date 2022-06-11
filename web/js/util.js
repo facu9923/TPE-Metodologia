@@ -40,5 +40,4 @@ function eliminarSegundos(hora) {
          */
         return hora.slice(0, -3);
     }
-
 }

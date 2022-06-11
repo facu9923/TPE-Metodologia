@@ -5,19 +5,13 @@
 	font-size: 20px;
 }
 
-#h1-proximos-pacientes {
-	padding: 25px;
-	font-size: 30px;
-	margin-top:10px;
+button {
+    cursor: pointer;
 }
 
 body {
 	width: 100%;
 	height: 100%;
-    background: url("./images/laboratory-3827740.jpg");
-    background-size: cover;
-    padding-top: 10px;
-    background-attachment: fixed;
 }
 
 #interfaz-login {
@@ -28,8 +22,6 @@ body {
 	left: 0;
 	background: white;
 	z-index: 10;
-
-	display: none;
 }
 
 #interfaz-login > div {
@@ -54,127 +46,94 @@ body {
 	padding: 3px 8px 3px 8px;
 }
 
-
-/* ----------------------- */
-
-#contenedor-turnos {
-	display: inline-block;
+#interfaz-general {
+	width: 100%;
+	height: 100%;
 	position: relative;
-	left:  50%;
-	transform: translateX(-50%);
-	border-radius: 10px 10px 0 0;
-	box-shadow: 0 0 4px 1px grey;
-    top: 25px;
-    background: rgba(0, 0, 0, 0.8);
-    color: rgba(255, 255, 255, 0.7);
+	top: 0;
+	left: 0;
+	background: white;
+	z-index: 5;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#h1-proximos-pacientes {
+	font-size: 30px;
+	margin-top:10px;
+    font-weight: normal;
+    padding: 25px 0 25px 0;
 }
 
 #contenedor-turnos {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: space-between;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	width: 700px;
-	color: white;
+	width: 768px;
+    outline: 1px dashed grey;
 }
 
-#administracion_medico {
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	top: 80px;
+.turno {
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
-.turno-container > * {
-	flex: 1;
+.turno:first-child {
+    background:rgba(141, 141, 141, 0.8);
 }
 
-.turno-container > .nombre-paciente {
-	flex-grow: 3;
+.turno:nth-of-type(even) {
+    background: rgba(0, 0, 0, 0.1);
 }
 
-.nombre-paciente {
-	padding-left: 10px;
+.turno > * {
+    flex: 1;
+    padding: 8px 10px 8px 10px;
 }
 
-.turno-container:first-child {
-	background: #dedede;
-	font-weight: bold;
-	border-radius: 10px 10px 0 0;
-    color: black;
+.turno > .nombre-paciente {
+    flex: 3;
+    padding-left: 10px;
+}
+
+.turno > .fecha-turno {
+    flex: 1;
 }
 
 footer {
 	height: 70px;
 }
 
-.cerrar-sesion {
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    outline: none;
-    border-radius: 15px;
-}
-
-#listaMedicos > button {
-    display: inline-block;
-    margin: 15px;
-    padding: 20px;
-}
-
-.boton_cancelar {
-	background: rgba(247, 64, 64, 0.8);
+.boton-turno {
 	border-radius: 40px;
 	padding-top: 4px;
 	padding-bottom: 4px;
 	padding-left: 7px;
 	padding-right: 7px;
-	cursor: pointer;	
 }
 
-.boton_reagendar {
-	background: rgba(242, 228, 40, 0.8);
-	border-radius: 40px;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	padding-left: 7px;
-	padding-right: 7px;
-	cursor: pointer;	
+.boton-cancelar {
+    background: rgba(247, 64, 64, 0.8);
 }
 
-.invisible {
-	cursor: default;
-	opacity: 0;
+.boton-reagendar {
+    background: rgba(242, 228, 40, 0.8);
 }
 
-button {
-	cursor: pointer;
-}
-
-#retroceso {
-    display: none;
-    margin-top: 15px;
-    background: #17F4FF;
-    border-radius: 150px 0px 0px 150px;
-    padding: 5px;
+#reagendar-popup {
     position: fixed;
-    z-index: 5;
-}
-
-#reasignar_popup {
-    position: fixed;
-    z-index: 6;
+    z-index: 15;
     width: 100%;
     height: 100%;
     background:rgba(0, 0, 0, 0.9);
     top: 0;
     left: 0;
+    color: white;
     display: none;
 }
 
-#reasignar_popup > div {
+#reagendar-popup > div {
     position: absolute;
     display: inline-block;
     padding: 30px;
@@ -185,11 +144,7 @@ button {
     height: 80%;
 }
 
-#reasignar_popup span {
-    color: white;
-}
-
-#lista_turnos_disponibles {
+#lista-turnos-disponibles {
     padding: 10px;
     overflow-y:auto;
     color: white;
@@ -197,19 +152,19 @@ button {
     margin-top: 30px;
 }
 
-#lista_turnos_disponibles > div {
+#lista-turnos-disponibles > div {
     display: block;
 }
 
-#lista_turnos_disponibles > div > div {
+#lista-turnos-disponibles > div > div {
     display: inline-block;
     margin-top: 7px;
 }
 
-#lista_turnos_disponibles > div > div:nth-child(1) {
+#lista-turnos-disponibles > div > div:nth-child(1) {
     width: 120px;
 }
 
-#lista_turnos_disponibles > div > div:nth-child(2) {
+#lista-turnos-disponibles > div > div:nth-child(2) {
     width: 120px;
 }

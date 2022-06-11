@@ -1,68 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Administración TurnoFacil</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<script type="text/javascript" src="./js/dataset.js"></script>
-		<script type="text/javascript" src="./js/persona.js"></script>
-		<script type="text/javascript" src="./js/medico.js"></script>
-		<script type="text/javascript" src="./js/secretaria.js"></script>
-		<script type="text/javascript" src="./js/util.js"></script>
-		<script type="text/javascript" src="./js/default.js"></script>
-		<script type="text/javascript" src="./js/storage_manager.js"></script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Administración TurnoFacil</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script type="text/javascript" src="./js/dataset.js"></script>
+        <script type="text/javascript" src="./js/persona.js"></script>
+        <script type="text/javascript" src="./js/medico.js"></script>
+        <script type="text/javascript" src="./js/secretaria.js"></script>
+        <script type="text/javascript" src="./js/util.js"></script>
+        <script type="text/javascript" src="./js/default.js"></script>
+        <script type="text/javascript" src="./js/storage_manager.js"></script>
 
-		<script type="text/javascript" src="./js/interfaz.js" defer></script>
-		<script type="text/javascript" src="./js/turno_facil.js" defer></script>
-	</head>
-	<body>
+        <script type="text/javascript" src="./js/interfaz.js" defer></script>
+        <script type="text/javascript" src="./js/turno_facil.js" defer></script>
+    </head>
+    <body>
 
-        <div id="interfaz-login">
-			<div>
-				<span>Login</span>
-				<div>
-					<input type="text" name="user" placeholder="Usuario" id="user">
-					<input type="password" name="user" placeholder="Contraseña" id="pw">
-					<button onClick="Interfaz.onClick.login_button()">Login</button>
-				</div>
-			</div>
-		</div>
-
-		<div id="interfaz-general">
-
-			<span>Logueado como 
-				<span id="logueado-como"></span>
-			</span>
-
-			<button id="boton-cerrar-sesion" onClick="Interfaz.onClick.cerrarSesion()">Cerrar sesión</button>
-			<button id="volver-seleccion-medico" onClick="">Seleccion médico</button>
-
-			<div id="h1-proximos-pacientes">
-				Tus proximos pacientes son:
-			</div>
-
-			<div id="contenedor-turnos">
-
-			</div>
-		</div>
-
-        <div id="reasignar_popup">
-
+        <!-- Cubre 100*100 -->
+        <div id="interfaz-login" style="display:none">
             <div>
+                <span>Login</span>
+                <div>
+                    <input type="text" name="user" placeholder="Usuario" id="user">
+                    <input type="password" name="user" placeholder="Contraseña" id="pw">
+                    <button onClick="Interfaz.onClick.login_button()">Login</button>
+                </div>
+            </div>
+        </div>
 
+        <div id="interfaz-general">
+            <span>Logueado como 
+                <span id="logueado-como"></span>
+            </span>
+            <button id="boton-cerrar-sesion" onClick="Interfaz.onClick.cerrar_sesion()">Cerrar sesión</button>
+            <button id="volver-seleccion-medico" onClick="Interfaz.onClick.volver_a_seleccion_medico()">Seleccion médico</button>
+            <h1 id="h1-proximos-pacientes">Tus proximos pacientes son:</h1>
+
+            <div id="lista-medicos"></div>
+
+            <div id="contenedor-turnos"></div>
+        </div>
+
+        <div id="reagendar-popup">
+            <div>
                 <span>Reasignar turno</span>
-
-                <button onClick="Interfaz.ocultarReasignacionPopup()">Cancelar</button>
-
-                <div id="lista_turnos_disponibles">
-
-                </div>                
-            </div>            
-
+                <button onClick="Interfaz.ocultarReagendarPopUp()">Cancelar</button>
+                <div id="lista-turnos-disponibles"></div>
+            </div>
         </div>
 
         <footer></footer>
 
-	</body>
+    </body>
 </html>

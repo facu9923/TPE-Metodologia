@@ -70,26 +70,6 @@ function comprobarCredenciales(usuario, contrasena) {
     return resultado;
 }
 
-
-
-
-function cerrarSesion() {
-    StorageManager.cerrarSesion();
-
-    document.getElementById("administracion_medico").innerHTML="";
-    document.getElementById("seleccion_medico").style.display = "block";
-    document.getElementById("retroceso").style.display = "none";
-
-    Interfaz.mostrarInterfazRelevante();
-}
-
-function retroceso() {
-    document.getElementById("retroceso").style.display = "none";
-    document.getElementById("administracion_medico").innerHTML="";
-    document.getElementById("seleccion_medico").style.display = "block";
-}
-
-
 /**
  * Retorna una lista de la forma:
  * [
