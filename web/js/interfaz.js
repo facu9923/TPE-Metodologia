@@ -74,6 +74,14 @@ class Interfaz {
         elemHTML.boton_agendar.style.display = "none";
     }
 
+    static mostrarH1proxPacientes() {
+        elemHTML.h1_proximos_pacientes.style.display = "block";
+    }
+
+    static ocultarH1proxPacientes() {
+        elemHTML.h1_proximos_pacientes.style.display = "none";
+    }
+
     static _getBotonCancelar(usuario_medico, timestamp, invisible) {
         const boton = document.createElement("button");
         boton.classList.add("boton-turno");
@@ -196,6 +204,7 @@ class Interfaz {
             Interfaz.setLogueadoComo(StorageManager.getUsuario(), "médico");
             Interfaz.ocultarSeleccionMedico();
             Interfaz.ocultarBotonSelecMedico();
+            Interfaz.mostrarH1proxPacientes();
             Interfaz.mostrarTurnos();
 
             Interfaz.setTurnos(
@@ -207,6 +216,7 @@ class Interfaz {
         {
             Interfaz.setLogueadoComo(StorageManager.getUsuario(), "secretaria", true, true);
             Interfaz.mostrarSeleccionMedico();
+            Interfaz.ocultarH1proxPacientes();
             Interfaz.ocultarTurnos();
         }
 
@@ -308,6 +318,7 @@ Interfaz.onClick = {
         StorageManager.cerrarSesion();
         Interfaz.ocultarBotonAgendar();
         Interfaz.mostrarInterfazRelevante();
+        Interfaz.ocultarH1proxPacientes();
     },
     volver_a_seleccion_medico() {
         Interfaz.ocultarBotonAgendar();

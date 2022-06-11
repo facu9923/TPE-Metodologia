@@ -3,10 +3,16 @@
 	padding: 0;
 	font-family: sans-serif;
 	font-size: 20px;
+    cursor: default;
+}
+
+input {
+    cursor: text;
 }
 
 button {
     cursor: pointer;
+    padding: 5px 10px 5px 10px;
 }
 
 body {
@@ -34,16 +40,31 @@ body {
 	border-radius: 0 55px 0 55px;
 }
 
+#interfaz-login > div > span {
+	font-size: 25px;
+}
+
 #interfaz-login > div > div {
+    margin-top: 10px;
 	display: flex;
 	flex-direction: column;
 }
 
 #interfaz-login > div > div > * {
-	margin: 10px;
+	margin: 5px;
 	border: 1px solid grey;
 	border-radius: 10px;
-	padding: 3px 8px 3px 8px;
+	padding: 5px 10px 5px 10px;
+    box-sizing: border-box;
+}
+
+#interfaz-login > div > div > input:focus {
+	box-shadow: 0 0 5px 1px grey;
+    outline: none;
+}
+
+#interfaz-login > div > div > button:hover {
+	background: rgba(0, 0, 0, 0.2);
 }
 
 #interfaz-general {
@@ -56,6 +77,10 @@ body {
 	z-index: 5;
     padding: 20px;
     box-sizing: border-box;
+}
+
+#interfaz-general > button {
+    margin: 15px 0 15px 0;
 }
 
 #h1-proximos-pacientes {
@@ -71,6 +96,9 @@ body {
 	justify-content: space-between;
 	width: 768px;
     outline: 1px dashed grey;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .turno {
@@ -144,6 +172,10 @@ footer {
     height: 80%;
 }
 
+#lista-medicos > * {
+    margin: 15px;
+}
+
 #lista-turnos-disponibles {
     padding: 10px;
     overflow-y:auto;
@@ -177,4 +209,5 @@ footer {
 
 #boton-agendar {
     display: none;
+    background: #95CA07;
 }
