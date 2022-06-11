@@ -6,8 +6,10 @@ const elemHTML = {
     h1_proximos_pacientes: document.querySelector("#h1-proximos-pacientes"),
     contenedor_turnos: document.querySelector("#contenedor-turnos"),
     lista_medicos: document.querySelector("#lista-medicos"),
-    reagendar_popup: document.querySelector("#reagendar-popup"),
-    lista_turnos_disponibles: document.querySelector("#lista-turnos-disponibles")
+    turnos_disponibles: document.querySelector("#turnos-disponibles"),
+    lista_turnos_disponibles: document.querySelector("#lista-turnos-disponibles"),
+    datos_paciente_form: document.querySelector("#datos-paciente"),
+    boton_agendar: document.querySelector("#boton-agendar")
 };
 
 class Interfaz {
@@ -48,12 +50,28 @@ class Interfaz {
         elemHTML.logueado_como.innerHTML = tipo + ": " + nombre;
     }
 
-    static ocultarReagendarPopUp() {
-        elemHTML.reagendar_popup.style.display = "none";
+    static ocultarTurnosDisponiblesPopUp() {
+        elemHTML.turnos_disponibles.style.display = "none";
     }
 
-    static mostrarReagendarPopUp() {
-        elemHTML.reagendar_popup.style.display = "block";
+    static mostrarTurnosDisponiblesPopUp() {
+        elemHTML.turnos_disponibles.style.display = "block";
+    }
+
+    static mostrarPacienteForm() {
+        elemHTML.datos_paciente_form.style.display = "block";
+    }
+
+    static ocultarPacienteForm() {
+        elemHTML.datos_paciente_form.style.display = "none";
+    }
+
+    static mostrarBotonAgendar() {
+        elemHTML.boton_agendar.style.display = "block";
+    }
+
+    static ocultarBotonAgendar() {
+        elemHTML.boton_agendar.style.display = "none";
     }
 
     static _getBotonCancelar(usuario_medico, timestamp, invisible) {
@@ -217,7 +235,7 @@ class Interfaz {
     }
 
 
-    static agregarTurnosReagenda(usuario_medico, timestamp_turno_seleccionado) {
+    static agregarTurnosDisponibles(usuario_medico, timestamp_turno_seleccionado, tipo = "agenda") {
 
         elemHTML.lista_turnos_disponibles.innerHTML = "";
 
@@ -238,7 +256,10 @@ class Interfaz {
             hora.innerHTML = eliminarSegundos(turno_disponible.toLocaleTimeString());
             boton.innerHTML = "Seleccionar";
 
-            boton.setAttribute("onClick", `Interfaz.onClick.confirmar_reagenda("${usuario_medico}", ${timestamp_turno_seleccionado}, ${turno_disponible.getTime()})`);
+            if (tipo == "agenda")
+                boton.setAttribute("onClick", `Interfaz.onClick.confirmar_agenda("${usuario_medico}", ${turno_disponible.getTime()})`);
+            else
+                boton.setAttribute("onClick", `Interfaz.onClick.confirmar_reagenda("${usuario_medico}", ${timestamp_turno_seleccionado}, ${turno_disponible.getTime()})`);
 
             elemHTML.lista_turnos_disponibles.appendChild(container);
         }
@@ -277,15 +298,19 @@ Interfaz.onClick = {
 
     },
     medico_seleccionado(usuario_medico) {
+        StorageManager.medicoSeleccionado = usuario_medico;
         Interfaz.ocultarSeleccionMedico();
         Interfaz.setTurnos(get_medico_por_usuario(medicos, usuario_medico), pacientes);
+        Interfaz.mostrarBotonAgendar();
         Interfaz.mostrarTurnos();
     },
     cerrar_sesion() {
         StorageManager.cerrarSesion();
+        Interfaz.ocultarBotonAgendar();
         Interfaz.mostrarInterfazRelevante();
     },
     volver_a_seleccion_medico() {
+        Interfaz.ocultarBotonAgendar();
         Interfaz.mostrarSeleccionMedico();
     },
     cancelar_turno(usuario_medico, timestamp_turno) {
@@ -296,14 +321,43 @@ Interfaz.onClick = {
         Interfaz.setTurnos(medico, pacientes);
     },
     reagendar_turno(usuario_medico, timestamp_turno_seleccionado) {
-        Interfaz.agregarTurnosReagenda(usuario_medico, timestamp_turno_seleccionado);
-        Interfaz.mostrarReagendarPopUp();
+        Interfaz.agregarTurnosDisponibles(usuario_medico, timestamp_turno_seleccionado, "reagenda");
+        Interfaz.ocultarPacienteForm();
+        Interfaz.mostrarTurnosDisponiblesPopUp();
     },
     confirmar_reagenda(usuario_medico, timestamp_viejo, timestamp_nuevo) {
+
         const medico = get_medico_por_usuario(medicos, usuario_medico);
         medico.modificarTimestampTurno(timestamp_viejo, timestamp_nuevo);
 
         Interfaz.setTurnos(medico, pacientes);
-        Interfaz.ocultarReagendarPopUp();
+        Interfaz.ocultarTurnosDisponiblesPopUp();
+    },
+    agendar_turno() {
+        Interfaz.agregarTurnosDisponibles(StorageManager.medicoSeleccionado, null, "agenda");
+        Interfaz.mostrarPacienteForm();
+        Interfaz.mostrarTurnosDisponiblesPopUp();
+    },
+    confirmar_agenda(usuario_medico, timestamp_turno) {
+
+        const medico = get_medico_por_usuario(medicos, usuario_medico);
+
+        let nombrePaciente = document.getElementById("datos-paciente-nombre").value;
+        let dniPaciente;
+
+        try {
+            dniPaciente = Number(document.getElementById("datos-paciente-dni").value);
+        } catch {
+            return;
+        }
+
+        pacientes.push(new Persona(dniPaciente, nombrePaciente));
+        StorageManager.guardarPacientes(pacientes);
+
+        medico._insertarOrdenado(dniPaciente, timestamp_turno);
+        StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));
+
+        Interfaz.setTurnos(medico, pacientes);
+        Interfaz.ocultarTurnosDisponiblesPopUp();
     }
 }

@@ -121,7 +121,7 @@ footer {
     background: rgba(242, 228, 40, 0.8);
 }
 
-#reagendar-popup {
+#turnos-disponibles {
     position: fixed;
     z-index: 15;
     width: 100%;
@@ -133,7 +133,7 @@ footer {
     display: none;
 }
 
-#reagendar-popup > div {
+#turnos-disponibles > div {
     position: absolute;
     display: inline-block;
     padding: 30px;
@@ -167,4 +167,14 @@ footer {
 
 #lista-turnos-disponibles > div > div:nth-child(2) {
     width: 120px;
+}
+
+#datos-paciente input {
+    display: block;
+    margin: 10px;
+    padding: 5px 15px 5px 15px;
+}
+
+#boton-agendar {
+    display: none;
 }

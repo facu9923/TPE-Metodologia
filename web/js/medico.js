@@ -32,6 +32,31 @@ class Medico extends Persona {
             }
     }
 
+    _insertarOrdenado(dni_paciente, timestamp_nuevo) {
+
+        let i = 0;
+        let insertado = false;
+
+        while (i < this._turnos.length && !insertado) {
+
+            if (timestamp_nuevo < this._turnos[i].timestamp) {
+                this._turnos.splice(i, 0, {
+                    dni_paciente,
+                    timestamp: timestamp_nuevo
+                });
+                insertado = true;
+            }
+
+            i++;
+        }
+
+        if (!insertado)
+            this._turnos.push({
+                dni_paciente,
+                timestamp: timestamp_nuevo
+            });
+    }
+
     modificarTimestampTurno(timestamp_viejo, timestamp_nuevo) {
 
         let dni_paciente;
@@ -43,35 +68,11 @@ class Medico extends Persona {
                 this._turnos.splice(i, 1);
                 break;
             }
-
         }
 
         if (!dni_paciente) alert("fjdslkfsedkfg");
-        
-        // Insertar
 
-        let i = 0;
-        let insertado = false;
-
-        while (i < this._turnos.length && !insertado) {
-
-            if (timestamp_nuevo < this._turnos[i].timestamp) {
-                this._turnos.splice(i, 0, {
-                    dni_paciente,
-                    "timestamp": timestamp_nuevo
-                });
-                insertado = true;
-            }
-
-            i++;
-        }
-
-        if (!insertado)
-            this._turnos.push({
-                dni_paciente,
-                "timestamp": timestamp_nuevo
-            });
-
+        this._insertarOrdenado(dni_paciente, timestamp_nuevo);
     }
 
     agregarTurno(dni_paciente, timestamp) {

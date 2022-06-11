@@ -35,18 +35,24 @@
                 <span id="logueado-como"></span>
             </span>
             <button id="boton-cerrar-sesion" onClick="Interfaz.onClick.cerrar_sesion()">Cerrar sesión</button>
+            <button id="boton-agendar" onClick="Interfaz.onClick.agendar_turno()">Agendar nuevo turno</button>
             <button id="volver-seleccion-medico" onClick="Interfaz.onClick.volver_a_seleccion_medico()">Seleccion médico</button>
             <h1 id="h1-proximos-pacientes">Tus proximos pacientes son:</h1>
 
             <div id="lista-medicos"></div>
-
             <div id="contenedor-turnos"></div>
         </div>
 
-        <div id="reagendar-popup">
+        <div id="turnos-disponibles">
+
             <div>
-                <span>Reasignar turno</span>
-                <button onClick="Interfaz.ocultarReagendarPopUp()">Cancelar</button>
+                <div id="datos-paciente">
+                    <input type="text" placeholder="Nombre paciente" id="datos-paciente-nombre">
+                    <input type="number" placeholder="DNI paciente" id="datos-paciente-dni">
+                </div>
+
+                <span>Seleccioná el turno</span>
+                <button onClick="Interfaz.ocultarTurnosDisponiblesPopUp()">Cancelar</button>
                 <div id="lista-turnos-disponibles"></div>
             </div>
         </div>
