@@ -5,9 +5,7 @@ const DEFAULT = {
         new Medico(34065398, "Noemi de las Nieves", "noemi_de_las_nieves", "1234")
     ],
     secretarias: [
-        new Secretaria(42064076, "Paula Herminda", "paula_herminda", "1234"),
-        new Secretaria(34597933, "Francisca Santina", "francisca_santina", "1234"),
-        new Secretaria(1, "a", "a", "a")
+        new Secretaria(42064076, "Paula Herminda", "paula_herminda", "1234")
     ],
     RANGO_HORARIO_TURNOS: {
         MIN: 8,
