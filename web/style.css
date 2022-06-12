@@ -186,8 +186,8 @@ footer {
     padding: 10px;
     overflow-y: auto;
     color: white;
-    height: 80%;
     margin-top: 30px;
+    height: 45%;
 }
 
 #lista-turnos-disponibles > div {
