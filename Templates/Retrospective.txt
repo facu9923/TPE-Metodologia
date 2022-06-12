@@ -1,15 +1,31 @@
 #Summary Sprint Retrospective: <Sprint #>
 
-##1. People invited to the meeting
+##1. Los invitados a la reunion son:
+	_Facundo Arias
+	_Enzo Seguel
+	_Ramiro Rojas
+	_Christian Sanchotena
+	_Nicolas Meliodi
+	_Nahuel Charlone
 
-##2. List of attendees
+##2. No hay asistentes
 
 
-##3. What worked well?
+##3. Que funciono bien? 
+	Tuvimos buena organizacion y la metodologia de trabajo fue eficiente, por ejemplo, para 
+	este trabajo decidimos trabajar cada uno desde su casa mientras hablababamos por discord, esto 
+	permitio que todos tuviesemos computadora personales y la aumento la comodidad.
+	En cuanto a la metodologia de Scrum, todos nos adaptamos bien, en especial cuando se trato
+	de usar la herramienta de control de versionado "Git".
+	
 
 
-##4. What could be improved?
+##4. Que se podria mejorar?
+	Lo principal que se puede mejorar es la predispocicion del grupo para ponerse a trabajar.
+	
 
+##5. que nos comprometemremos a hacer en el proccimo Sprint:
+	Nos comprometemos a corregir los errores de la primera entrega y refinar ymplementar los pbis 
+	seleccionados, ademas intentaremos mejorar el trabajo grupal.
 
-##5. What will we commit to doing in the next Sprint? (actionable commitments)
 
