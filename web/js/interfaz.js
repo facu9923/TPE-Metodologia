@@ -16,6 +16,7 @@ class Interfaz {
 
     static mostrarLogin() {
         elemHTML.interfaz_login.style.display = "block";
+        elemHTML.interfaz_general.style.display = "none";
     }
 
     static ocultarTurnos() {

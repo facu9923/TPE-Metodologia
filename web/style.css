@@ -26,8 +26,9 @@ body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	background: white;
 	z-index: 10;
+    background: url(./images/background1.jpg) no-repeat 0px 0px;
+    background-size: cover;
 }
 
 #interfaz-login > div {
@@ -38,6 +39,8 @@ body {
 	transform: translate(-50%, -50%);
 	border: 1px solid black;
 	border-radius: 0 55px 0 55px;
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 #interfaz-login > div > span {
@@ -64,7 +67,7 @@ body {
 }
 
 #interfaz-login > div > div > button:hover {
-	background: rgba(0, 0, 0, 0.2);
+	background: rgba(255, 255, 255, 0.7);
 }
 
 #interfaz-general {
@@ -85,7 +88,6 @@ body {
 
 #h1-proximos-pacientes {
 	font-size: 30px;
-	margin-top:10px;
     font-weight: normal;
     padding: 25px 0 25px 0;
 }
@@ -95,7 +97,7 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 	width: 768px;
-    outline: 1px dashed grey;
+    box-shadow: 0 0 5px grey;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
@@ -105,10 +107,13 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
+    padding: 3px;
+    box-sizing: border-box;
+
 }
 
 .turno:first-child {
-    background:rgba(141, 141, 141, 0.8);
+    background:rgba(141, 141, 141, 0.5);
 }
 
 .turno:nth-of-type(even) {
@@ -143,6 +148,7 @@ footer {
 
 .boton-cancelar {
     background: rgba(247, 64, 64, 0.8);
+    margin-right: 5px;
 }
 
 .boton-reagendar {
@@ -178,7 +184,7 @@ footer {
 
 #lista-turnos-disponibles {
     padding: 10px;
-    overflow-y:auto;
+    overflow-y: auto;
     color: white;
     height: 80%;
     margin-top: 30px;
