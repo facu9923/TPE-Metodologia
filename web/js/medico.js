@@ -1,5 +1,7 @@
 class Medico extends Persona {
 
+    clase = "Medico";
+
     constructor(dni, nombre, usuario, contrasena) {
         super(dni, nombre);
         this._usuario = usuario;
@@ -15,139 +17,86 @@ class Medico extends Persona {
         return this._contrasena;
     }
 
-    getListaTurnos() {
+    getTurnos() {
         /* slice sin argumentos retorna una copia del array */
         return this._turnos.slice();
     }
 
-    setListaTurnos(lista) {
-        this._turnos = lista;
-    }
+    eliminarTurno(turno) {
 
-    eliminarTurno(timestamp) {
-        for (let i = 0; i < this._turnos.length; i++)
-            if (this._turnos[i].timestamp == timestamp) {
-                this._turnos.splice(i, 1);
-                break;
-            }
-    }
-
-    _insertarOrdenado(dni_paciente, timestamp_nuevo) {
-
+        let eliminado = false;
         let i = 0;
-        let insertado = false;
 
-        while (i < this._turnos.length && !insertado) {
+        while (i < this._turnos.length && !eliminado) {
+            if (this._turnos[i].equals(turno)) {
 
-            if (timestamp_nuevo < this._turnos[i].timestamp) {
-                this._turnos.splice(i, 0, {
-                    dni_paciente,
-                    timestamp: timestamp_nuevo
-                });
-                insertado = true;
-            }
-
-            i++;
-        }
-
-        if (!insertado)
-            this._turnos.push({
-                dni_paciente,
-                timestamp: timestamp_nuevo
-            });
-    }
-
-    modificarTimestampTurno(timestamp_viejo, timestamp_nuevo) {
-
-        let dni_paciente;
-
-        for (let i = 0; i < this._turnos.length; i++) {
-
-            if (this._turnos[i].timestamp == timestamp_viejo) {
-                dni_paciente = this._turnos[i].dni_paciente;
+                /* splice elimina el turno en esa
+                   posicion y hace un corrimiento
+                   para que no queden vacios.
+                   (manteniendo el orden) */
                 this._turnos.splice(i, 1);
-                break;
+                eliminado = true;
             }
         }
-
-        if (!dni_paciente) alert("fjdslkfsedkfg");
-
-        this._insertarOrdenado(dni_paciente, timestamp_nuevo);
     }
 
-    agregarTurno(dni_paciente, timestamp) {
-        this._turnos.push({
-            dni_paciente,
-            timestamp
-        });
-    }
+    agregarTurno(turno) {
 
-    /**
-     * Elimina turnos de la lista, anteriores al timestamp
-     */
-    eliminarTurnosAntesDe(timestamp) {
-        while(this._turnos.length && this._turnos[0].timestamp < timestamp)
-            this._turnos.shift();
-    }
+        let posicion_encontrada = false;
+        let i = 0;
 
-    /**
-     * Genera turnos aleatorios con la lista de pacientes brindada,
-     * hasta llegar a tener entre 30 y 45 turnos en tal lista.
-     */
-    generarTurnosRandom(listaPacientes) {
-
-        let date = new Date();
-
-        // Si ya habia turnos creados, seguir desde el ultimo...
-
-        if (this._turnos.length) {
-            date = new Date(this._turnos[this._turnos.length-1].timestamp);
+        while (i < this._turnos.length && !posicion_encontrada) {
+            if (turno.esAnterior(this._turnos[i]))
+                posicion_encontrada = true;
+            else
+                i++;
         }
 
-        proxTurnoDate(date);
-        if (date.getHours() < DEFAULT.RANGO_HORARIO_TURNOS.MIN)
-            date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
-
-        // Para que no afecten al timestamp del turno...
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-
-        /*
-         * Generar entre 30 y 45 turnos corridos
-         * (Es dificil encontrar un turno muy cercano)
-         */
-        for (let i = this._turnos.length; i < enteroRandom(30, 45); i++) {
-
-            proxTurnoDate(date);
-
-            // 5% de chance de "dejar un hueco" en los turnos
-            if (Math.random() < 0.05)
-                continue;
-
-            this.agregarTurno(
-                this._pacienteRandomUnico(listaPacientes),
-                date.getTime()
-            );
-        }
+        // insertarlo en la posicion i
+        this._turnos.splice(i, 0, turno);
     }
 
-    /**
-     * Retorna un DNI que no esté en la lista de turnos
-     */
-    _pacienteRandomUnico(listaPacientes) {
-        while (true) {
-            const dni = listaPacientes[enteroRandom(0, listaPacientes.length-1)].getDNI();
-            let repetido = false;
-            for (let i = 0; i < this._turnos.length; i++)
-                if (this._turnos[i].dni_paciente == dni) {
-                    repetido = true;
-                    break;
-                }
+    eliminarTurnosViejos() {
 
-            if (repetido == false)
-                return dni;
+        const ahora = new Turno(Date.now());
+
+        let turno_pendiente_encontrado = false;
+        let i = 0;
+
+        while (!turno_pendiente_encontrado && i < this._turnos.length) {
+
+            if (this._turnos[i].esAnterior(ahora))
+                turno_pendiente_encontrado = true;
+            else
+                i++;
         }
+
+        // guardar solo los turnos pendientes
+        this._turnos = this._turnos.slice(i);
     }
 
+    cantidadTurnos() {
+        return this._turnos.length;
+    }
+
+    turnoLibre(turno) {
+        for (let i = 0; i < this._turnos.length; i++)
+            if (this._turnos[i].getTimestamp() == turno.getTimestamp())
+                return false;
+        return true;
+    }
+
+    getTurnosDisponibles() {
+
+        let generador = Turno.proximoPosible();
+        let turnos_libres = [];
+
+        for (let i = 0; i < 40; i++) {
+            if (this.turnoLibre(generador))
+                turnos_libres.push(generador.getCopia());
+            generador.posponerHoras(1);
+        }
+
+        return turnos_libres;
+    }
 }

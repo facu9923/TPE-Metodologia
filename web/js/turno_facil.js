@@ -1,29 +1,8 @@
-let medicos;
-let pacientes;
-let secretarias;
-
-/**
- * Retorna lista con pacientes aleatorios
- */
-function generarPacientesAleatorios() {
-
-    const pacientes = [];
-
-    for (let i = 0; i < 50; i++) {
-        const paciente = new Persona(
-            enteroRandom(10000000, 50000000),
-            nombresPacientes[enteroRandom(0, nombresPacientes.length-1)]
-        );
-        pacientes.push(paciente);
-    }
-
-    return pacientes;
-}
-
 /**
  * Modifica date para pasar al proximo turno
  * (Suma 1 hora o pasa al dia siguiente)
  */
+/*
 function proxTurnoDate(date) {
     date.setHours(date.getHours() + 1);
     if (date.getHours() > DEFAULT.RANGO_HORARIO_TURNOS.MAX) {
@@ -33,110 +12,14 @@ function proxTurnoDate(date) {
     if (date.getHours() < DEFAULT.RANGO_HORARIO_TURNOS.MIN) {
         date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
     }
-}
-
+}*/
+/*
 function comprobarCredenciales(usuario, contrasena) {
 
-    function buscarEn(lista) {
 
-        let resultado = {
-            encontrado: false,
-            credenciales_validas: false
-        };
+}*/
 
-        /**
-         * Nota: "persona" debería ser en este caso, un objeto médico o secretaria.
-         */
-        for (persona of lista) {
-            if (persona.getUsuario() == usuario) {
-                resultado.encontrado = true;
-                if (persona.getContrasena() == contrasena)
-                    resultado.credenciales_validas = true;
-                break;
-            }
-        }
-        return resultado;
-    }
-
-    let resultado = buscarEn(DEFAULT.medicos);
-    if (resultado.encontrado) {
-        resultado.tipo = "medico";
-        return resultado;
-    }
-    resultado = buscarEn(DEFAULT.secretarias);
-    if (resultado.encontrado) {
-        resultado.tipo = "secretaria";
-    }
-    return resultado;
-}
-
-/**
- * Retorna una lista de la forma:
- * [
- * 		dni_medico,
- * 		lista_turnos: [
- * 			{
- * 				dni_paciente,
- * 				timestamp
- * 			}	
- * 		]
- * ]
- * Este formato sirve para guardar en el localStorage,
- * vinculando los turnos (dni_paciente, timestamp) con el medico.
- */
-function obtenerTurnosCompletos(medicos) {
-    let turnosCompletos = [];
-
-    for (medico of medicos) {
-        turnosCompletos.push({
-            dni_medico: medico.getDNI(),
-            lista_turnos: medico.getListaTurnos()
-        });
-    }
-    return turnosCompletos;
-}
-
-/**
- * Asigna los turnosCompletos (en el formato del localStorage) a los
- * medicos
- */
-function asignarTurnosAMedicos(turnosCompletos, medicos) {
-
-    /**
-     * Retorna la posicion en el arreglo de medicos
-     */
-    function indiceMedico(dni) {
-        for (let i = 0; i < medicos.length; i++)
-            if (medicos[i].getDNI() == dni)
-                return i;
-        return -1;
-    }
-
-    for (let i = 0; i < turnosCompletos.length; i++) {
-        medicos[indiceMedico(turnosCompletos[i].dni_medico)].setListaTurnos(
-            turnosCompletos[i].lista_turnos
-        );
-    }
-}
-
-
-function cantidadTurnosEntre(a_timestamp, b_timestamp) {
-
-    let a_date = new Date(a_timestamp);
-    proxTurnoDate(a_date);
-
-    let contador = 0;
-    while (true) {
-        if (a_date.getTime() != b_timestamp) {
-            contador ++;
-            proxTurnoDate(a_date);
-        }
-        else
-            break;
-    }
-    return contador;
-}
-
+/*
 function getTurnosDisponibles(medico) {
     let turnosDisponibles = [];
     const turnosMedico = medico.getListaTurnos();
@@ -195,12 +78,198 @@ function reagendarTurno(usuario_medico, timestamp_viejo, timestamp_nuevo) {
     document.getElementById("reasignar_popup").style.display = "none";
     Interfaz.setTurnos(medico, pacientes, "#administracion_medico", true, true);
     alert("Datos actualizados!");
+}*/
+
+class TurnoFacil {
+
+    constructor() {
+        this._pacientes = [];
+        this._medicos = [];
+        this._secretarias = [];
+    }
+
+    generarPacientesRandom() {
+
+        this._pacientes = [];
+
+        for (let i = 0; i < 100; i++) {
+            const paciente = new Persona(
+                enteroRandom(10000000, 50000000),
+                dataset_nombres[enteroRandom(0, dataset_nombres.length-1)]
+            );
+            this._pacientes.push(paciente);
+        }
+    }
+
+    pacienteRandom() {
+        return this._pacientes[enteroRandom(0, this._pacientes.length-1)];
+    }
+
+    generarTurnosRandom(medico) {
+
+        let generador;
+
+        if (medico.cantidadTurnos() > 0)
+            generador = medico.getTurnos()[medico.cantidadTurnos()-1];
+        else
+            generador = Turno.proximoPosible();
+
+        for (let i = medico.cantidadTurnos(); i < enteroRandom(30, 45); i++) {
+
+            generador.posponerHoras(1);
+            generador.setPaciente(this.pacienteRandom());
+
+            // 5% de chance de "dejar un hueco" en los turnos
+            if (Math.random() < 0.05)
+                continue;
+
+            medico.agregarTurno(generador.getCopia());
+        }
+    }
+
+    setMedicosDefault() {
+        this._medicos = DEFAULT.medicos;
+    }
+
+    setSecretariasDefault() {
+        this._secretarias = DEFAULT.secretarias;
+    }
+
+    comprobarCredenciales(usuario, contrasena) {
+
+        function buscarEn(lista) {
+
+            let resultado = {
+                encontrado: false,
+                credenciales_validas: false,
+                tipo: null,
+                persona: null
+            };
+
+            for (let persona of lista)
+                if (persona.getUsuario() == usuario) {
+                    resultado.encontrado = true;
+                    if (persona.getContrasena() == contrasena)
+                        resultado.credenciales_validas = true;
+                    resultado.persona = persona;
+                    break;
+                }
+
+            return resultado;
+        }
+    
+        let resultado = buscarEn(this._medicos);
+
+        if (resultado.encontrado) {
+            resultado.tipo = "medico";
+            return resultado;
+        }
+
+        resultado = buscarEn(this._secretarias);
+
+        if (resultado.encontrado) {
+            resultado.tipo = "secretaria";
+            return resultado;
+        }
+
+        return resultado;
+    }
+
+    inicializar() {
+
+        this._pacientes = StorageManager.cargarListaObjetos("pacientes");
+
+        if (!this._pacientes) {
+            this.generarPacientesRandom();
+            console.log("Pacientes generados");
+            StorageManager.guardarListaObjetos("pacientes", this._pacientes);
+        } else
+            console.log("Pacientes cargados del local storage");
+
+        this._medicos = StorageManager.cargarListaObjetos("medicos");
+        if (!this._medicos) {
+            this.setMedicosDefault();
+            StorageManager.guardarListaObjetos("medicos", this._medicos);
+        } else
+            console.log("Medicos cargados del local storage");
+        
+        this._secretarias = StorageManager.cargarListaObjetos("secretarias");
+        if (!this._secretarias) {
+            this.setSecretariasDefault();
+            StorageManager.guardarListaObjetos("secretarias", this._secretarias);
+        } else
+        {
+            console.log("Secretarias cargadas del local storage");
+        }
+        
+        // Vincular dni de los medicos con los objetos Medico
+        for (const secretaria of this._secretarias)
+            secretaria.vincularMedicos(this._medicos);
+        
+        for (const medico of this._medicos) {
+            medico.eliminarTurnosViejos();
+            this.generarTurnosRandom(medico);
+        }
+
+        StorageManager.guardarDatos(
+            this._pacientes,
+            this._medicos,
+            this._secretarias
+        );
+
+        // Cargar la interfaz
+
+        Interfaz.mostrarLogin();
+
+        this.agregarEventosInterfaz();
+
+    }
+
+    agregarEventosInterfaz() {
+
+        Interfaz.onClick.login_button = () => {
+
+            const usuario = document.querySelector("#user").value;
+            const contrasena = document.querySelector("#pw").value;
+    
+            if (!usuario || !contrasena)
+                return;
+    
+            const resultado_login = this.comprobarCredenciales(usuario, contrasena);
+    
+            if (resultado_login.encontrado == false) {
+                alert("Usuario no encontrado!");
+                return;
+            }
+    
+            if (resultado_login.credenciales_validas == false) {
+                alert("Contraseña incorrecta!");
+                return;
+            }
+    
+            StorageManager.guardarLogin({
+                logged_as: resultado_login.tipo,
+                usuario,
+                contrasena
+            });
+    
+            // Interfaz.mostrarInterfazRelevante(this._medicos, this._pacientes);
+
+            if (resultado_login.tipo == "medico")
+                Interfaz.mostrarInterfazMedico(resultado_login.persona);
+            if (resultado_login.tipo == "secretaria")
+                Interfaz.mostrarInterfazSecretaria(resultado_login.persona);
+            
+        };
+    }
+
 }
+
+/*
 
 (function main() {
 
-    medicos = DEFAULT.medicos;
-    secretarias = DEFAULT.secretarias;
+
     
     // Cargar pacientes del localstorage (si los hay)
 
@@ -212,7 +281,7 @@ function reagendarTurno(usuario_medico, timestamp_viejo, timestamp_nuevo) {
         /*
             Nota por si falla algo: Se esta pasando new Persona()
             que debe ser "compatible" con { dni, nombre }
-        */
+        
     }
 
     // Cargar turnos del localstorage (si los hay)
@@ -242,4 +311,4 @@ function reagendarTurno(usuario_medico, timestamp_viejo, timestamp_nuevo) {
 
     Interfaz.mostrarInterfazRelevante(medicos, pacientes);
 
-})();
+})();*/

@@ -1,5 +1,7 @@
 class Turno {
 
+    clase = "Turno";
+
     _timestamp = null;
     _medico = null;
     _paciente = null;
@@ -20,6 +22,10 @@ class Turno {
 
     getPaciente() {
         return this._paciente;
+    }
+
+    setPaciente(paciente) {
+        this._paciente = paciente;
     }
 
     getFechaStr() {
@@ -44,6 +50,8 @@ class Turno {
             date.setDate(date.getDate() + 1);
             date.setHours(Turno.PRIMER_TURNO);
         }
+        if (date.getHours() < Turno.PRIMER_TURNO)
+            date.setHours(Turno.PRIMER_TURNO);
 
         this._timestamp = date.getTime();
     }
@@ -86,4 +94,20 @@ Turno.turnosEntre = function(turno_a, turno_b) {
         }
     }
     return contador;
+}
+
+Turno.proximoPosible = function() {
+    const turno_date = new Date(Date.now());
+    turno_date.setMinutes(0);
+    turno_date.setSeconds(0);
+    turno_date.setMilliseconds(0);
+
+    const turno = new Turno(turno_date.getTime());
+    turno.posponerHoras(1);
+
+    return turno;
+}
+
+Turno.mismoHorario = function(turno_a, turno_b) {
+    return turno_a.getTimestamp() == turno_b.getTimestamp();
 }

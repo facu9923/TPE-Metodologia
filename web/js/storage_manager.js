@@ -1,58 +1,29 @@
 class StorageManager {
 
-    static _cargarListaObjetos(clave) {
-        // No hay control de errores
-        const listaStr = localStorage.getItem(clave);
-        if (!listaStr)
-            return null;
-        return JSON.parse(listaStr);
+    static eliminarTodo() {
+        localStorage.clear();
     }
 
-    static _guardarListaObjetos(clave, lista) {
+    static cargarListaObjetos(clave) {
+
+        if (!StorageManager._existeClave(clave)) {
+            console.log(`${clave} no encontrada en localStorage`);
+            return null;
+        }
+
+        let parseado = JSON.parse(localStorage.getItem(clave));
+        parseado = asignarMetodos(parseado);
+
+        return parseado;
+    }
+
+    static guardarListaObjetos(clave, lista) {
         const listaStr = JSON.stringify(lista);
         localStorage.setItem(clave, listaStr);
     }
 
-    /**
-     * Retorna (null) o una lista de objetos de la forma:
-     * {
-     * 		dni_medico,
-     * 		lista_turnos: [
-     * 			{
-     * 				dni_paciente,
-     * 				timestamp	
-     * 			}
-     * 		]
-     * }
-     */
-    static cargarTurnos() {
-        return StorageManager._cargarListaObjetos("turnos");
-    }
-
-    static guardarTurnos(turnos) {
-        StorageManager._guardarListaObjetos("turnos", turnos);
-    }
-
-    static cargarPacientes() {
-        const listaPacientes = StorageManager._cargarListaObjetos("pacientes");
-
-        if (listaPacientes == null)
-            return null;
-        /*
-        listaPacientes es una lista de objetos Persona, pero sin sus métodos
-        por haber sido convertidos a JSON, por lo tanto hay que "agregarselos"
-        */
-        const listaPacientesConMetodos = [];
-        for (let paciente of listaPacientes) {
-            listaPacientesConMetodos.push(
-                new Persona(paciente._dni, paciente._nombre)
-            );
-        }
-        return listaPacientesConMetodos;
-    }
-
-    static guardarPacientes(pacientes) {
-        StorageManager._guardarListaObjetos("pacientes", pacientes);
+    static _existeClave(clave) {
+        return Boolean(localStorage.getItem(clave));
     }
 
     static isLogged() {
@@ -81,4 +52,9 @@ class StorageManager {
         return localStorage.getItem("usuario");
     }
 
+    static guardarDatos(pacientes, medicos, secretarias) {
+        StorageManager.guardarListaObjetos("pacientes", pacientes);
+        StorageManager.guardarListaObjetos("medicos", medicos);
+        StorageManager.guardarListaObjetos("secretarias", secretarias);
+    }
 }

@@ -1,5 +1,7 @@
 class Persona {
 
+    clase = "Persona";
+
     constructor(dni, nombre) {
         this._dni = dni;
         this._nombre = nombre;

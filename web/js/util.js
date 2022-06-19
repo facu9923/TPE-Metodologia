@@ -41,3 +41,31 @@ function eliminarSegundos(hora) {
         return hora.slice(0, -3);
     }
 }
+
+function asignarMetodos(elemento) {
+
+    if (typeof elemento == "object") {
+
+        if (Array.isArray(elemento)) {
+            let nuevo = [];
+            for (let i = 0; i < elemento.length; i++)
+                nuevo.push(asignarMetodos(elemento[i]));
+            return nuevo;
+        }
+        else {
+
+            for (let [key, value] of Object.entries(elemento))
+                elemento[key] = asignarMetodos(elemento[key]);
+
+            if (!elemento.clase)
+                return elemento;
+
+            const nuevo = eval(`new ${elemento.clase}()`);
+            Object.assign(nuevo, elemento);
+            return nuevo;
+        }
+            
+    } else {
+        return elemento;
+    }
+}
