@@ -37,6 +37,7 @@ class Medico extends Persona {
                 this._turnos.splice(i, 1);
                 eliminado = true;
             }
+            i++;
         }
     }
 
@@ -45,12 +46,11 @@ class Medico extends Persona {
         let posicion_encontrada = false;
         let i = 0;
 
-        while (i < this._turnos.length && !posicion_encontrada) {
+        while (i < this._turnos.length && !posicion_encontrada)
             if (turno.esAnterior(this._turnos[i]))
                 posicion_encontrada = true;
             else
                 i++;
-        }
 
         // insertarlo en la posicion i
         this._turnos.splice(i, 0, turno);
@@ -98,5 +98,15 @@ class Medico extends Persona {
         }
 
         return turnos_libres;
+    }
+
+    reagendarTurno(turno_viejo, turno_nuevo) {
+        if (this.turnoLibre(turno_nuevo)) {
+            turno_nuevo.setPaciente(turno_viejo.getPaciente());
+            this.eliminarTurno(turno_viejo);
+            this.agregarTurno(turno_nuevo);
+        }
+        else
+            console.log("El turno ya esta ocupado!");
     }
 }

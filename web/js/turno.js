@@ -64,16 +64,17 @@ class Turno {
         return this._timestamp < turno.getTimestamp();
     }
 
+    equals(turno_b) {
+        return (this.getTimestamp() == turno_b.getTimestamp())
+        /*
+            && (this.getPaciente() == turno_b.getPaciente())
+            && (this.getMedico() == turno_b.getMedico());
+        */
+    }
 }
 
 Turno.PRIMER_TURNO = 8;
 Turno.ULTIMO_TURNO = 20;
-
-Turno.equals = function(turno_a, turno_b) {
-    return (turno_a.getTimestamp() == turno_b.getTimestamp())
-            && (turno_a.getPaciente() == turno_b.getPaciente())
-            && (turno_a.getMedico() == turno_b.getMedico());
-}
 
 Turno.turnosEntre = function(turno_a, turno_b) {
 

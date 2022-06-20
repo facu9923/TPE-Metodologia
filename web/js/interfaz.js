@@ -47,7 +47,9 @@ class Interfaz {
     }
 
     static setLogueadoComo(nombre, tipo) {
-        elemHTML.logueado_como.innerHTML = tipo + ": " + nombre;
+        // elemHTML.logueado_como.innerHTML = tipo + ": " + nombre;
+        document.getElementById("tipo-login").innerHTML = tipo;
+        document.getElementById("nombre-login").innerHTML = nombre;
     }
 
     static ocultarTurnosDisponiblesPopUp() {
@@ -82,7 +84,7 @@ class Interfaz {
         elemHTML.h1_proximos_pacientes.style.display = "none";
     }
 
-    static _getBotonCancelar(usuario_medico, timestamp, invisible) {
+    static _getBotonCancelar(medico, turno, invisible) {
         const boton = document.createElement("button");
         boton.classList.add("boton-turno");
         boton.classList.add("boton-cancelar");
@@ -93,12 +95,14 @@ class Interfaz {
             boton.style.cursor = "default";
         }
         else
-            boton.setAttribute("onClick", `Interfaz.onClick.cancelar_turno("${usuario_medico}", ${timestamp})`);
+            boton.addEventListener("click", () => {
+                Interfaz.onClick.cancelar_turno(medico, turno);
+            });
 
         return boton;
     }
 
-    static _getBotonReagendar(usuario_medico, timestamp, invisible) {
+    static _getBotonReagendar(medico, turno, invisible) {
         const boton = document.createElement("button");
         boton.classList.add("boton-turno");
         boton.classList.add("boton-reagendar");
@@ -109,7 +113,9 @@ class Interfaz {
             boton.style.cursor = "default";
         }
         else
-            boton.setAttribute("onClick", `Interfaz.onClick.reagendar_turno("${usuario_medico}", ${timestamp})`);
+            boton.addEventListener("click", () => {
+                Interfaz.onClick.reagendar_turno(medico, turno)
+            });
 
         return boton;
     }
@@ -119,6 +125,9 @@ class Interfaz {
         Interfaz.setTurnos(medico);
         Interfaz.mostrarH1proxPacientes();
         Interfaz.setLogueadoComo(medico.getNombre(), "médico");
+        Interfaz.ocultarSeleccionMedico();
+        Interfaz.mostrarTurnos();
+        Interfaz.ocultarBotonSelecMedico();
         // Mostrar div
         Interfaz.mostrarInterfazGeneral();
     }
@@ -194,8 +203,8 @@ class Interfaz {
                 turno.getPaciente().getNombre(),
                 dia,
                 hora,
-                cancelar ? Interfaz._getBotonCancelar(medico.getUsuario(), timestamp): null,
-                reagendar ? Interfaz._getBotonReagendar(medico.getUsuario(), timestamp): null,
+                cancelar ? Interfaz._getBotonCancelar(medico, turno): null,
+                reagendar ? Interfaz._getBotonReagendar(medico, turno): null,
             );
 
             elemHTML.contenedor_turnos.appendChild(elementoTurno);
@@ -226,13 +235,11 @@ class Interfaz {
             container.appendChild(boton);
     }
 
-    static agregarTurnosDisponibles(usuario_medico, timestamp_turno_seleccionado, tipo = "agenda") {
+    static agregarTurnosDisponibles(medico, turno_seleccionado) {
 
         elemHTML.lista_turnos_disponibles.innerHTML = "";
 
-        let medico = get_medico_por_usuario(medicos, usuario_medico);
-
-        for (let turno_disponible of getTurnosDisponibles(medico)) {
+        for (let turno_disponible of medico.getTurnosDisponibles()) {
 
             let container = document.createElement("div");
             let dia = document.createElement("div");
@@ -243,14 +250,18 @@ class Interfaz {
             container.appendChild(hora);
             container.appendChild(boton);
 
-            dia.innerHTML = turno_disponible.toLocaleDateString();
-            hora.innerHTML = eliminarSegundos(turno_disponible.toLocaleTimeString());
+            dia.innerHTML = turno_disponible.getFechaStr();
+            hora.innerHTML = turno_disponible.getHoraStr();
             boton.innerHTML = "Seleccionar";
 
-            if (tipo == "agenda")
-                boton.setAttribute("onClick", `Interfaz.onClick.confirmar_agenda("${usuario_medico}", ${turno_disponible.getTime()})`);
+            if (!turno_seleccionado)
+                boton.addEventListener("click", () => {
+                    Interfaz.onClick.confirmar_agenda(medico, turno_disponible);
+                });
             else
-                boton.setAttribute("onClick", `Interfaz.onClick.confirmar_reagenda("${usuario_medico}", ${timestamp_turno_seleccionado}, ${turno_disponible.getTime()})`);
+                boton.addEventListener("click", () => {
+                    Interfaz.onClick.confirmar_reagenda(medico, turno_seleccionado, turno_disponible);
+                });
 
             elemHTML.lista_turnos_disponibles.appendChild(container);
         }
@@ -258,13 +269,6 @@ class Interfaz {
 }
 
 Interfaz.onClick = {
-
-    medico_seleccionado(medico) {
-        Interfaz.ocultarSeleccionMedico();
-        Interfaz.setTurnos(medico);
-        Interfaz.mostrarBotonAgendar();
-        Interfaz.mostrarTurnos();
-    },
     cerrar_sesion() {
         StorageManager.cerrarSesion();
         Interfaz.ocultarBotonAgendar();
@@ -275,52 +279,5 @@ Interfaz.onClick = {
     volver_a_seleccion_medico() {
         Interfaz.ocultarBotonAgendar();
         Interfaz.mostrarSeleccionMedico();
-    },
-    cancelar_turno(usuario_medico, timestamp_turno) {
-        const medico = get_medico_por_usuario(medicos, usuario_medico);
-        medico.eliminarTurno(timestamp_turno);
-        StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));
-
-        Interfaz.setTurnos(medico, pacientes);
-    },
-    reagendar_turno(usuario_medico, timestamp_turno_seleccionado) {
-        Interfaz.agregarTurnosDisponibles(usuario_medico, timestamp_turno_seleccionado, "reagenda");
-        Interfaz.ocultarPacienteForm();
-        Interfaz.mostrarTurnosDisponiblesPopUp();
-    },
-    confirmar_reagenda(usuario_medico, timestamp_viejo, timestamp_nuevo) {
-
-        const medico = get_medico_por_usuario(medicos, usuario_medico);
-        medico.modificarTimestampTurno(timestamp_viejo, timestamp_nuevo);
-
-        Interfaz.setTurnos(medico, pacientes);
-        Interfaz.ocultarTurnosDisponiblesPopUp();
-    },
-    agendar_turno() {
-        Interfaz.agregarTurnosDisponibles(StorageManager.medicoSeleccionado, null, "agenda");
-        Interfaz.mostrarPacienteForm();
-        Interfaz.mostrarTurnosDisponiblesPopUp();
-    },
-    confirmar_agenda(usuario_medico, timestamp_turno) {
-
-        const medico = get_medico_por_usuario(medicos, usuario_medico);
-
-        let nombrePaciente = document.getElementById("datos-paciente-nombre").value;
-        let dniPaciente;
-
-        try {
-            dniPaciente = Number(document.getElementById("datos-paciente-dni").value);
-        } catch {
-            return;
-        }
-
-        pacientes.push(new Persona(dniPaciente, nombrePaciente));
-        StorageManager.guardarPacientes(pacientes);
-
-        medico._insertarOrdenado(dniPaciente, timestamp_turno);
-        StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));
-
-        Interfaz.setTurnos(medico, pacientes);
-        Interfaz.ocultarTurnosDisponiblesPopUp();
     }
 }

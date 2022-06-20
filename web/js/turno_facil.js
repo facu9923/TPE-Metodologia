@@ -1,18 +1,3 @@
-/**
- * Modifica date para pasar al proximo turno
- * (Suma 1 hora o pasa al dia siguiente)
- */
-/*
-function proxTurnoDate(date) {
-    date.setHours(date.getHours() + 1);
-    if (date.getHours() > DEFAULT.RANGO_HORARIO_TURNOS.MAX) {
-        date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
-        date.setDate(date.getDate() + 1);
-    }
-    if (date.getHours() < DEFAULT.RANGO_HORARIO_TURNOS.MIN) {
-        date.setHours(DEFAULT.RANGO_HORARIO_TURNOS.MIN);
-    }
-}*/
 /*
 function comprobarCredenciales(usuario, contrasena) {
 
@@ -86,6 +71,7 @@ class TurnoFacil {
         this._pacientes = [];
         this._medicos = [];
         this._secretarias = [];
+        this._medico_actual = null;
     }
 
     generarPacientesRandom() {
@@ -252,63 +238,82 @@ class TurnoFacil {
                 usuario,
                 contrasena
             });
-    
-            // Interfaz.mostrarInterfazRelevante(this._medicos, this._pacientes);
 
-            if (resultado_login.tipo == "medico")
+            this._persona_actual = resultado_login.persona;
+
+            if (resultado_login.tipo == "medico") {
                 Interfaz.mostrarInterfazMedico(resultado_login.persona);
+                this._medico_actual = resultado_login.persona;
+            }
             if (resultado_login.tipo == "secretaria")
                 Interfaz.mostrarInterfazSecretaria(resultado_login.persona);
             
         };
+
+        Interfaz.onClick.cancelar_turno = (medico, turno) => {
+            medico.eliminarTurno(turno);
+
+            StorageManager.guardarDatos(
+                this._pacientes,
+                this._medicos,
+                this._secretarias
+            );
+
+            // Actualizar la interfaz
+
+            Interfaz.setTurnos(medico);
+        };
+
+        Interfaz.onClick.reagendar_turno = (medico, turno_seleccionado) => {
+            Interfaz.agregarTurnosDisponibles(medico, turno_seleccionado);
+            Interfaz.ocultarPacienteForm();
+            Interfaz.mostrarTurnosDisponiblesPopUp();
+        }
+
+        Interfaz.onClick.medico_seleccionado = (medico) => {
+            Interfaz.ocultarSeleccionMedico();
+            Interfaz.setTurnos(medico);
+            Interfaz.mostrarBotonAgendar();
+            Interfaz.mostrarTurnos();
+            this._medico_actual = medico;
+        },
+
+        Interfaz.onClick.confirmar_agenda = (medico, turno) => {
+
+            let nombrePaciente = document.getElementById("datos-paciente-nombre").value;
+            let dniPaciente = Number(document.getElementById("datos-paciente-dni").value);
+    
+            // Ver si ya existe el dni (guardar en turno.paciente)
+
+            turno.setPaciente(new Persona(
+                dniPaciente,
+                nombrePaciente
+            ));
+
+            this._pacientes.push(new Persona(dniPaciente, nombrePaciente));
+            StorageManager.guardarListaObjetos("pacientes", this._pacientes);
+    
+            medico.agregarTurno(turno);
+            StorageManager.guardarListaObjetos("medicos", this._medicos);
+    
+            Interfaz.setTurnos(medico);
+            Interfaz.ocultarTurnosDisponiblesPopUp();
+        };
+
+        Interfaz.onClick.agendar_turno = () => {
+            Interfaz.agregarTurnosDisponibles(this._medico_actual, null, "agenda");
+            Interfaz.mostrarPacienteForm();
+            Interfaz.mostrarTurnosDisponiblesPopUp();
+        }
+
+        Interfaz.onClick.confirmar_reagenda = (medico, turno_seleccionado, turno_nuevo) => {
+    
+            medico.reagendarTurno(turno_seleccionado, turno_nuevo);
+
+            Interfaz.setTurnos(medico);
+            Interfaz.ocultarTurnosDisponiblesPopUp();
+        };
+
     }
 
 }
-
-/*
-
-(function main() {
-
-
-    
-    // Cargar pacientes del localstorage (si los hay)
-
-    pacientes = StorageManager.cargarPacientes();
-    if (pacientes == null) {
-        pacientes = generarPacientesAleatorios();
-        StorageManager.guardarPacientes(pacientes);
-
-        /*
-            Nota por si falla algo: Se esta pasando new Persona()
-            que debe ser "compatible" con { dni, nombre }
-        
-    }
-
-    // Cargar turnos del localstorage (si los hay)
-    let turnosCompletos = StorageManager.cargarTurnos();
-
-    if (turnosCompletos == null) {
-        // Generar turnos aleatorios
-        for (medico of medicos)
-            medico.generarTurnosRandom(pacientes);
-    }
-    else
-        asignarTurnosAMedicos(turnosCompletos, medicos);
-
-    // Actualizar turnos ya pasados y agregar mas si es necesario
-
-    for (medico of medicos) {
-        medico.eliminarTurnosAntesDe(Date.now());
-        medico.generarTurnosRandom(pacientes);
-    }
-
-    turnosCompletos = obtenerTurnosCompletos(medicos);
-    StorageManager.guardarTurnos(turnosCompletos);
-
-    Interfaz.setListaMedicos(medicos);
-
-    // En este punto esta todo cargado y actualizado
-
-    Interfaz.mostrarInterfazRelevante(medicos, pacientes);
-
-})();*/
