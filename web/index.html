@@ -12,9 +12,10 @@
         <script type="text/javascript" src="./js/util.js"></script>
         <script type="text/javascript" src="./js/default.js"></script>
         <script type="text/javascript" src="./js/storage_manager.js"></script>
-
+        <script type="text/javascript" src="./js/turno.js"></script>
+        <script type="text/javascript" src="./js/turno_facil.js"></script>
         <script type="text/javascript" src="./js/interfaz.js" defer></script>
-        <script type="text/javascript" src="./js/turno_facil.js" defer></script>
+        <script type="text/javascript" src="./js/source.js" defer></script>
     </head>
     <body>
 
@@ -32,7 +33,9 @@
 
         <div id="interfaz-general">
             <span>Logueado como 
-                <span id="logueado-como"></span>
+                <span id="logueado-como">
+                    <span id="tipo-login"></span>: <span id="nombre-login"></span>
+                </span>
             </span>
             <button id="boton-cerrar-sesion" onClick="Interfaz.onClick.cerrar_sesion()">Cerrar sesión</button>
             <button id="volver-seleccion-medico" onClick="Interfaz.onClick.volver_a_seleccion_medico()">Seleccionar otro médico</button>
@@ -58,6 +61,5 @@
         </div>
 
         <footer></footer>
-
     </body>
 </html>

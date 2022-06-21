@@ -2,12 +2,15 @@ Medicos:
 
 	usuario: daniel_cesareo
 	contraseña: 1234
+	(secretaria paula herminda)
 
 	usuario: humberto_sergio_eduardo
 	contraseña: 1234
+	(secretaria paula herminda)
 
 	usuario: noemi_de_las_nieves
 	contraseña: 1234
+	(secretaria francisca santina)
 
 Secretarias:
 

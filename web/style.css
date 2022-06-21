@@ -217,3 +217,11 @@ footer {
     display: none;
     background: #95CA07;
 }
+
+#nombre-login {
+    font-weight: bold;
+}
+
+#tipo-login {
+    text-decoration: underline;
+}

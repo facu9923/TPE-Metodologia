@@ -5,10 +5,19 @@ const DEFAULT = {
         new Medico(34065398, "Noemi de las Nieves", "noemi_de_las_nieves", "1234")
     ],
     secretarias: [
-        new Secretaria(42064076, "Paula Herminda", "paula_herminda", "1234")
-    ],
-    RANGO_HORARIO_TURNOS: {
-        MIN: 8,
-        MAX: 20
-    }
+        Object.assign(new Secretaria(), {
+            _dni: 42064076,
+            _nombre: "Paula Herminda",
+            _usuario: "paula_herminda",
+            _contrasena: "1234",
+            _dni_medicos: [13350792, 24593969]
+        }),
+        Object.assign(new Secretaria(), {
+            _dni: 34597933,
+            _nombre: "Francisca Santina",
+            _usuario: "francisca_santina",
+            _contrasena: "1234",
+            _dni_medicos: [34065398]
+        })
+    ]
 };
