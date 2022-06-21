@@ -14,6 +14,8 @@ const elemHTML = {
 
 class Interfaz {
 
+    static onClick = {};
+
     static mostrarLogin() {
         elemHTML.interfaz_login.style.display = "block";
     }
@@ -47,7 +49,6 @@ class Interfaz {
     }
 
     static setLogueadoComo(nombre, tipo) {
-        // elemHTML.logueado_como.innerHTML = tipo + ": " + nombre;
         document.getElementById("tipo-login").innerHTML = tipo;
         document.getElementById("nombre-login").innerHTML = nombre;
     }
@@ -199,6 +200,8 @@ class Interfaz {
             let hora = turno.getHoraStr();
             const dia = turno.getFechaStr();
 
+            console.log("Agregando turno de: " + turno.getPaciente().getNombre());
+
             const elementoTurno = Interfaz._crearElementoTurno(
                 turno.getPaciente().getNombre(),
                 dia,
@@ -216,7 +219,6 @@ class Interfaz {
         const listaMedicos = [];
         for (const medico of medicos) {
             const medicoItem = document.createElement("button");
-            // medicoItem.setAttribute("onClick", `Interfaz.onClick.medico_seleccionado("${medico.getDNI()}")`);
             medicoItem.addEventListener("click", () => {
                 Interfaz.onClick.medico_seleccionado(medico);
             });
@@ -230,6 +232,8 @@ class Interfaz {
         const listaMedicos = Interfaz._crearListaBotonesMedicos(medicos);
 
         const container = document.getElementById("lista-medicos");
+
+        container.innerHTML = "";
 
         for (let boton of listaMedicos)
             container.appendChild(boton);
@@ -265,19 +269,5 @@ class Interfaz {
 
             elemHTML.lista_turnos_disponibles.appendChild(container);
         }
-    }
-}
-
-Interfaz.onClick = {
-    cerrar_sesion() {
-        StorageManager.cerrarSesion();
-        Interfaz.ocultarBotonAgendar();
-        Interfaz.mostrarLogin();
-        Interfaz.mostrarSeleccionMedico();
-        Interfaz.ocultarH1proxPacientes();
-    },
-    volver_a_seleccion_medico() {
-        Interfaz.ocultarBotonAgendar();
-        Interfaz.mostrarSeleccionMedico();
     }
 }

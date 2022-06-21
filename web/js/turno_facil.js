@@ -1,102 +1,26 @@
-/*
-function comprobarCredenciales(usuario, contrasena) {
-
-
-}*/
-
-/*
-function getTurnosDisponibles(medico) {
-    let turnosDisponibles = [];
-    const turnosMedico = medico.getListaTurnos();
-
-    let caca = new Date();
-
-    // Para que no afecten al timestamp del turno...
-    let codigo_asqueroso = false;
-    caca.setMinutes(0);
-    caca.setSeconds(0);
-    caca.setMilliseconds(0);
-    proxTurnoDate(caca);
-    if (caca.getTime() != turnosMedico[0].timestamp) {
-        codigo_asqueroso = true;
-        turnosMedico.unshift({
-            dni_paciente: "jajajajjaajaja",
-            timestamp: caca.getTime()
-        });
-    }
-
-    // Encontrar "huecos"
-
-    for (let i = 0; i < turnosMedico.length - 1; i++) {
-        let cantidad_huecos = cantidadTurnosEntre(turnosMedico[i].timestamp, turnosMedico[i+1].timestamp);
-        for (let hueco_n = 1; hueco_n <= cantidad_huecos; hueco_n++) {
-            let copiaTurnoBase = new Date(turnosMedico[i].timestamp);
-            // Sumar fedasfghuiu54hrecacapedopishtr
-            for (let i = 0; i < hueco_n; i++)
-                proxTurnoDate(copiaTurnoBase);
-            turnosDisponibles.push(copiaTurnoBase);
-        }
-    }
-
-    // Agregar algunos mas al final
-
-    let copiaUltimoTurno = new Date(turnosMedico[turnosMedico.length - 1].timestamp);
-    proxTurnoDate(copiaUltimoTurno);
-    turnosDisponibles.push(copiaUltimoTurno);
-
-    for (let i = 0; i < 2; i++) {
-        let copiaUltimo = new Date(turnosDisponibles[turnosDisponibles.length-1].getTime());
-        proxTurnoDate(copiaUltimo);
-        turnosDisponibles.push(copiaUltimo);
-    }
-
-    if (codigo_asqueroso)
-        turnosMedico.shift();
-
-    return turnosDisponibles;
-}
-
-function reagendarTurno(usuario_medico, timestamp_viejo, timestamp_nuevo) {
-    const medico = get_medico_por_usuario(medicos, usuario_medico);
-    medico.modificarTimestampTurno(timestamp_viejo, timestamp_nuevo);
-    StorageManager.guardarTurnos(obtenerTurnosCompletos(medicos));
-    document.getElementById("reasignar_popup").style.display = "none";
-    Interfaz.setTurnos(medico, pacientes, "#administracion_medico", true, true);
-    alert("Datos actualizados!");
-}*/
-
 class TurnoFacil {
 
     constructor() {
-        this._pacientes = [];
         this._medicos = [];
         this._secretarias = [];
         this._medico_actual = null;
     }
 
-    generarPacientesRandom() {
-
-        this._pacientes = [];
-
-        for (let i = 0; i < 100; i++) {
-            const paciente = new Persona(
-                enteroRandom(10000000, 50000000),
-                dataset_nombres[enteroRandom(0, dataset_nombres.length-1)]
-            );
-            this._pacientes.push(paciente);
-        }
-    }
-
     pacienteRandom() {
-        return this._pacientes[enteroRandom(0, this._pacientes.length-1)];
+        return new Persona(
+            enteroRandom(10000000, 50000000),
+            dataset_nombres[enteroRandom(0, dataset_nombres.length-1)]
+        );
     }
 
     generarTurnosRandom(medico) {
 
         let generador;
 
-        if (medico.cantidadTurnos() > 0)
-            generador = medico.getTurnos()[medico.cantidadTurnos()-1];
+        if (medico.cantidadTurnos() > 0) {
+            generador = medico.getTurnos()[medico.cantidadTurnos()-1].getCopia();
+            generador.posponerHoras(1);
+        }
         else
             generador = Turno.proximoPosible();
 
@@ -105,7 +29,7 @@ class TurnoFacil {
             generador.posponerHoras(1);
             generador.setPaciente(this.pacienteRandom());
 
-            // 5% de chance de "dejar un hueco" en los turnos
+            // 0.05 de chance de "dejar un hueco" en los turnos
             if (Math.random() < 0.05)
                 continue;
 
@@ -119,6 +43,18 @@ class TurnoFacil {
 
     setSecretariasDefault() {
         this._secretarias = DEFAULT.secretarias;
+    }
+
+    getMedicoFromUsername(username) {
+        for (const medico of this._medicos)
+            if (medico.getUsuario() == username)
+                return medico;
+    }
+
+    getSecretariaFromUsername(username) {
+        for (const secretaria of this._secretarias)
+            if (secretaria.getUsuario() == username)
+                return secretaria;
     }
 
     comprobarCredenciales(usuario, contrasena) {
@@ -163,52 +99,53 @@ class TurnoFacil {
 
     inicializar() {
 
-        this._pacientes = StorageManager.cargarListaObjetos("pacientes");
-
-        if (!this._pacientes) {
-            this.generarPacientesRandom();
-            console.log("Pacientes generados");
-            StorageManager.guardarListaObjetos("pacientes", this._pacientes);
-        } else
-            console.log("Pacientes cargados del local storage");
-
         this._medicos = StorageManager.cargarListaObjetos("medicos");
         if (!this._medicos) {
             this.setMedicosDefault();
             StorageManager.guardarListaObjetos("medicos", this._medicos);
         } else
-            console.log("Medicos cargados del local storage");
+            console.log("Medicos cargados del local storage", this._medicos);
         
         this._secretarias = StorageManager.cargarListaObjetos("secretarias");
         if (!this._secretarias) {
             this.setSecretariasDefault();
             StorageManager.guardarListaObjetos("secretarias", this._secretarias);
         } else
-        {
-            console.log("Secretarias cargadas del local storage");
-        }
+            console.log("Secretarias cargadas del local storage", this._secretarias);
         
         // Vincular dni de los medicos con los objetos Medico
         for (const secretaria of this._secretarias)
             secretaria.vincularMedicos(this._medicos);
         
         for (const medico of this._medicos) {
-            medico.eliminarTurnosViejos();
+            // medico.eliminarTurnosViejos();
             this.generarTurnosRandom(medico);
         }
 
         StorageManager.guardarDatos(
-            this._pacientes,
             this._medicos,
             this._secretarias
         );
 
         // Cargar la interfaz
 
-        Interfaz.mostrarLogin();
+        if (!StorageManager.isLogged())
+            Interfaz.mostrarLogin();
+        else {
+            const usuario = StorageManager.getUsuario();
+
+            if (StorageManager.getTipoLogin() == "medico") {
+                const medico = this.getMedicoFromUsername(usuario);
+                this._medico_actual = medico;
+                Interfaz.mostrarInterfazMedico(medico);
+            }
+            if (StorageManager.getTipoLogin() == "secretaria") {
+                const secretaria = this.getSecretariaFromUsername(usuario);
+                Interfaz.mostrarInterfazSecretaria(secretaria);
+            }
+        }           
 
         this.agregarEventosInterfaz();
-
     }
 
     agregarEventosInterfaz() {
@@ -254,7 +191,6 @@ class TurnoFacil {
             medico.eliminarTurno(turno);
 
             StorageManager.guardarDatos(
-                this._pacientes,
                 this._medicos,
                 this._secretarias
             );
@@ -268,7 +204,7 @@ class TurnoFacil {
             Interfaz.agregarTurnosDisponibles(medico, turno_seleccionado);
             Interfaz.ocultarPacienteForm();
             Interfaz.mostrarTurnosDisponiblesPopUp();
-        }
+        };
 
         Interfaz.onClick.medico_seleccionado = (medico) => {
             Interfaz.ocultarSeleccionMedico();
@@ -276,7 +212,7 @@ class TurnoFacil {
             Interfaz.mostrarBotonAgendar();
             Interfaz.mostrarTurnos();
             this._medico_actual = medico;
-        },
+        };
 
         Interfaz.onClick.confirmar_agenda = (medico, turno) => {
 
@@ -289,9 +225,6 @@ class TurnoFacil {
                 dniPaciente,
                 nombrePaciente
             ));
-
-            this._pacientes.push(new Persona(dniPaciente, nombrePaciente));
-            StorageManager.guardarListaObjetos("pacientes", this._pacientes);
     
             medico.agregarTurno(turno);
             StorageManager.guardarListaObjetos("medicos", this._medicos);
@@ -304,7 +237,7 @@ class TurnoFacil {
             Interfaz.agregarTurnosDisponibles(this._medico_actual, null, "agenda");
             Interfaz.mostrarPacienteForm();
             Interfaz.mostrarTurnosDisponiblesPopUp();
-        }
+        };
 
         Interfaz.onClick.confirmar_reagenda = (medico, turno_seleccionado, turno_nuevo) => {
     
@@ -314,6 +247,17 @@ class TurnoFacil {
             Interfaz.ocultarTurnosDisponiblesPopUp();
         };
 
-    }
+        Interfaz.onClick.cerrar_sesion = () => {
+            StorageManager.cerrarSesion();
+            Interfaz.ocultarBotonAgendar();
+            Interfaz.mostrarLogin();
+            Interfaz.mostrarSeleccionMedico();
+            Interfaz.ocultarH1proxPacientes();
+        };
 
+        Interfaz.onClick.volver_a_seleccion_medico = () => {
+            Interfaz.ocultarBotonAgendar();
+            Interfaz.mostrarSeleccionMedico();
+        };
+    }
 }

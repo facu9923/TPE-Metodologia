@@ -12,12 +12,15 @@ class StorageManager {
         }
 
         let parseado = JSON.parse(localStorage.getItem(clave));
+
         parseado = asignarMetodos(parseado);
 
         return parseado;
     }
 
+
     static guardarListaObjetos(clave, lista) {
+
         const listaStr = JSON.stringify(lista);
         localStorage.setItem(clave, listaStr);
     }
@@ -52,8 +55,7 @@ class StorageManager {
         return localStorage.getItem("usuario");
     }
 
-    static guardarDatos(pacientes, medicos, secretarias) {
-        StorageManager.guardarListaObjetos("pacientes", pacientes);
+    static guardarDatos(medicos, secretarias) {
         StorageManager.guardarListaObjetos("medicos", medicos);
         StorageManager.guardarListaObjetos("secretarias", secretarias);
     }

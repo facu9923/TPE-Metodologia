@@ -47,10 +47,9 @@ function asignarMetodos(elemento) {
     if (typeof elemento == "object") {
 
         if (Array.isArray(elemento)) {
-            let nuevo = [];
             for (let i = 0; i < elemento.length; i++)
-                nuevo.push(asignarMetodos(elemento[i]));
-            return nuevo;
+                elemento[i] = asignarMetodos(elemento[i]);
+            return elemento;
         }
         else {
 

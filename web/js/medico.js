@@ -56,6 +56,8 @@ class Medico extends Persona {
         this._turnos.splice(i, 0, turno);
     }
 
+    // ANDA MAL
+    /*
     eliminarTurnosViejos() {
 
         const ahora = new Turno(Date.now());
@@ -74,6 +76,7 @@ class Medico extends Persona {
         // guardar solo los turnos pendientes
         this._turnos = this._turnos.slice(i);
     }
+    */
 
     cantidadTurnos() {
         return this._turnos.length;
