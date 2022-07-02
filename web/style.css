@@ -80,6 +80,7 @@ body {
 	z-index: 5;
     padding: 20px;
     box-sizing: border-box;
+    display: none;
 }
 
 #interfaz-general > button {
@@ -171,11 +172,19 @@ footer {
     position: absolute;
     display: inline-block;
     padding: 30px;
+    box-sizing: border-box;
     border: 2px dashed white;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 80%;
+    display: flex;
+    flex-direction: column;
+    max-height: 90%;
+    width: 500px;
+}
+
+#turnos-disponibles > div > button {
+    margin-top: 10px;
 }
 
 #lista-medicos > * {
@@ -186,8 +195,7 @@ footer {
     padding: 10px;
     overflow-y: auto;
     color: white;
-    margin-top: 30px;
-    height: 45%;
+    margin-top: 10px;
 }
 
 #lista-turnos-disponibles > div {
