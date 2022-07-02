@@ -302,6 +302,19 @@ class TurnoFacil {
             const l = (tipo_cuenta == "medico") ? this._medicos : this._secretarias;
             const t = (tipo_cuenta == "medico") ? Medico : Secretaria;
 
+            for (const medico of this._medicos)
+                if (dni == medico.getDNI() || nombre_usuario == medico.getUsuario())
+                    return alert("Error: el usuario ya está registrado como médico");
+            for (const secr of this._secretarias)
+                if (dni == secr.getDNI() || nombre_usuario == secr.getUsuario())
+                    return alert("Error: el usuario ya está registrado como secretaria");
+
+            /*
+            for (let i = 0; i < l.length; i++)
+                if (dni == l[i].getDNI() || nombre_usuario == l[i].getUsuario())
+                    return alert("Ya existe una cuenta con los datos ingresados");
+            */
+
             // Guardar el dato en memoria
             l.push(new t(dni, nombre, nombre_usuario, contrasena));
 
