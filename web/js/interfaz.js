@@ -294,15 +294,14 @@ Interfaz.onClick.cerrar_popup_crear_cuenta = function() {
 };
 
 Interfaz.vaciar_campos_crear_cuenta = function() {
-    document.querySelector("#popup-crear-cuenta .nombre").innerHTML = "";
-    document.querySelector("#popup-crear-cuenta .usuario").innerHTML = "";
-    document.querySelector("#popup-crear-cuenta .dni").innerHTML = "";
-    document.querySelector("#popup-crear-cuenta .contrasena").innerHTML = "";
+    document.querySelector("#popup-crear-cuenta .nombre").value = "";
+    document.querySelector("#popup-crear-cuenta .usuario").value = "";
+    document.querySelector("#popup-crear-cuenta .dni").value = "";
+    document.querySelector("#popup-crear-cuenta .contrasena").value = "";
 }
 
 Interfaz.onClick.abrir_popup_crear_cuenta = function() {
     elemHTML.popup_crear_cuenta.style.display = "block";
-    elemHTML.boton_crear_cuenta.style.display = "none";
     Interfaz.vaciar_campos_crear_cuenta();
 };
 

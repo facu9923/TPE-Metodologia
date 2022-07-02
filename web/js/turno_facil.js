@@ -249,6 +249,8 @@ class TurnoFacil {
         };
 
         Interfaz.onClick.agendar_turno = () => {
+            document.querySelector("#datos-paciente-nombre").value="";
+            document.querySelector("#datos-paciente-dni").value="";
             Interfaz.agregarTurnosDisponibles(this._medico_actual, null, "agenda");
             Interfaz.mostrarPacienteForm();
             Interfaz.mostrarTurnosDisponiblesPopUp();
@@ -284,10 +286,10 @@ class TurnoFacil {
             const nombre_usuario = document.querySelector("#popup-crear-cuenta .usuario").value;
             const contrasena = document.querySelector("#popup-crear-cuenta .contrasena").value;
 
-            if (!tipo_cuenta || !nombre || !dni || !nombre_usuario || !contrasena)
+            if (!tipo_cuenta || !nombre || !nombre_usuario || !contrasena)
                 return alert("Debes completar todos los campos");
             
-            if (isNaN(dni))
+            if (!dni || isNaN(dni))
                 return alert("El DNI no es valido");
 
             // Crear cuenta
@@ -307,6 +309,8 @@ class TurnoFacil {
             // Y cerrar el popup
 
             document.querySelector("#popup-crear-cuenta").style.display = "none";
+
+            alert("Cuenta creada exitosamente");
         };
 
         Interfaz.onChange.secretaria_seleccionada = () => {
