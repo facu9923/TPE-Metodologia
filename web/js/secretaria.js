@@ -20,6 +20,7 @@ class Secretaria extends Persona {
 
     agregarMedico(medico) {
         this._medicos.push(medico);
+        this._dni_medicos.push(medico.getDNI());
     }
 
     getMedicos() {

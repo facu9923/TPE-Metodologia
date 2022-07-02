@@ -65,7 +65,8 @@
             <h2>Panel de responsable local</h2>
             <button onClick="Interfaz.onClick.cerrar_sesion()">Cerrar sesión</button>
 
-            <button id="boton-crear-cuenta" onclick="Interfaz.onClick.abrir_popup_crear_cuenta()">Crear nueva cuenta</button>
+            <button onClick="Interfaz.onClick.abrir_popup_asignacion()">Vincular medico a secretaria</button>
+            <button id="boton-crear-cuenta" onClick="Interfaz.onClick.abrir_popup_crear_cuenta()">Crear nueva cuenta</button>
 
             <div id="popup-crear-cuenta">
                 <button id="boton-cerrar-crear-cuenta" onClick="Interfaz.onClick.cerrar_popup_crear_cuenta()">Cerrar</button>
@@ -82,6 +83,19 @@
                 <input type="text" placeholder="Contraseña" class="contrasena" required>
 
                 <button onClick="Interfaz.onClick.crear_cuenta()">Enviar</button>
+            </div>
+
+            <div id="popup-asignacion">
+                <button id="boton-cerrar-asignacion" onClick="Interfaz.onClick.cerrar_popup_asignacion()">Cerrar</button>
+
+                <span>Secretaria: </span>
+                <select id="asignacion-secretaria" onChange="Interfaz.onChange.secretaria_seleccionada()"></select>
+                <br>
+                <span>Medico: </span>
+                <select id="asignacion-medico"></select>
+                <br>
+                <button onClick="Interfaz.onClick.boton_vincular()">Vincular</button>
+
             </div>
 
         </div>

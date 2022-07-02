@@ -270,10 +270,29 @@ footer {
     transform: translateX(-50%);
 }
 
-#boton-cerrar-crear-cuenta {
+#boton-cerrar-crear-cuenta,
+#boton-cerrar-asignacion {
     position: absolute;
     right: 0;
     top: 0;
     margin-right: 50px;
     margin-top: 50px;
+}
+
+#popup-asignacion {
+    position: absolute;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+    box-sizing: border-box;
+}
+
+#popup-asignacion > * {
+    margin-top: 10px;
 }

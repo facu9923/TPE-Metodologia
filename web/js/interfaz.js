@@ -18,6 +18,7 @@ const elemHTML = {
 class Interfaz {
 
     static onClick = {};
+    static onChange = {};
 
     static mostrarInterfazResponsable() {
         elemHTML.interfaz_login.style.display = "none";
@@ -292,7 +293,20 @@ Interfaz.onClick.cerrar_popup_crear_cuenta = function() {
     elemHTML.boton_crear_cuenta.style.display = "block";
 };
 
+Interfaz.vaciar_campos_crear_cuenta = function() {
+    document.querySelector("#popup-crear-cuenta .nombre").innerHTML = "";
+    document.querySelector("#popup-crear-cuenta .usuario").innerHTML = "";
+    document.querySelector("#popup-crear-cuenta .dni").innerHTML = "";
+    document.querySelector("#popup-crear-cuenta .contrasena").innerHTML = "";
+}
+
 Interfaz.onClick.abrir_popup_crear_cuenta = function() {
     elemHTML.popup_crear_cuenta.style.display = "block";
     elemHTML.boton_crear_cuenta.style.display = "none";
+    Interfaz.vaciar_campos_crear_cuenta();
 };
+
+Interfaz.onClick.cerrar_popup_asignacion = () => {
+    document.querySelector("#popup-asignacion").style.display = "none";
+};
+

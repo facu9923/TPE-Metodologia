@@ -308,5 +308,66 @@ class TurnoFacil {
 
             document.querySelector("#popup-crear-cuenta").style.display = "none";
         };
+
+        Interfaz.onChange.secretaria_seleccionada = () => {
+            const usuario_secretaria = document.getElementById("asignacion-secretaria").value;
+            const secretaria = this.getSecretariaFromUsername(usuario_secretaria);
+
+            // Diferencia de medicos
+
+            let medicos_seleccionables = [];
+            for (let i = 0; i < this._medicos.length; i++)
+                if (!secretaria.getMedicos().includes(this._medicos[i]))
+                    medicos_seleccionables.push(this._medicos[i]);
+            
+            // Agregar los items al select de medico
+
+            const elm = document.getElementById("asignacion-medico");
+            elm.innerHTML = "";
+
+            for (let medico of medicos_seleccionables) {
+                const option = document.createElement("option");
+                option.setAttribute("value", medico.getUsuario());
+                option.innerHTML = medico.getNombre();
+                elm.appendChild(option);
+            }
+        };
+
+        // Se clickeó 'asociar medico a secretaria'
+        Interfaz.onClick.abrir_popup_asignacion = () => {
+            document.querySelector("#popup-asignacion").style.display = "block";
+
+            // Agregar secretarias
+            const elm = document.getElementById("asignacion-secretaria");
+            elm.innerHTML = "";
+
+            for (let i = 0; i < this._secretarias.length; i++) {
+                const option = document.createElement("option");
+                option.value = this._secretarias[i].getUsuario();
+                option.innerHTML = this._secretarias[i].getNombre();
+                elm.appendChild(option);
+            }
+            Interfaz.onChange.secretaria_seleccionada();
+        };
+
+        Interfaz.onClick.boton_vincular = () => {
+
+            const usuario_secretaria = document.getElementById("asignacion-secretaria").value;
+            const usuario_medico = document.getElementById("asignacion-medico").value;
+
+            const secretaria = this.getSecretariaFromUsername(usuario_secretaria);
+            const medico = this.getMedicoFromUsername(usuario_medico);
+
+            secretaria.agregarMedico(medico);
+            StorageManager.guardarDatos(
+                this._medicos,
+                this._secretarias
+            );
+
+            alert("Cuentas vinculadas exitosamente");
+
+            Interfaz.onClick.cerrar_popup_asignacion();
+
+        };
     }
 }
