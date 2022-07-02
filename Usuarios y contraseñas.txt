@@ -16,3 +16,11 @@ Secretarias:
 
 	usuario: paula_herminda
 	contraseña: 1234
+
+	usuario: francisca_santina
+	contraseña: 1234
+
+Responsables locales:
+
+	usuario: ari_iglesias
+	contraseña: 1234

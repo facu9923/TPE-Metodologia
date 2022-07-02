@@ -19,5 +19,8 @@ const DEFAULT = {
             _contrasena: "1234",
             _dni_medicos: [34065398]
         })
+    ],
+    responsables: [
+        new Responsable(16532693, "Ari Iglesias", "ari_iglesias", "1234")
     ]
 };

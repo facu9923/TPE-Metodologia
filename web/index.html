@@ -9,6 +9,7 @@
         <script type="text/javascript" src="./js/persona.js"></script>
         <script type="text/javascript" src="./js/medico.js"></script>
         <script type="text/javascript" src="./js/secretaria.js"></script>
+        <script type="text/javascript" src="./js/responsable.js"></script>
         <script type="text/javascript" src="./js/util.js"></script>
         <script type="text/javascript" src="./js/default.js"></script>
         <script type="text/javascript" src="./js/storage_manager.js"></script>
@@ -47,7 +48,6 @@
         </div>
 
         <div id="turnos-disponibles">
-
             <div>
                 <div id="datos-paciente">
                     <input type="text" placeholder="Nombre paciente" id="datos-paciente-nombre">
@@ -58,6 +58,32 @@
                 <button onClick="Interfaz.ocultarTurnosDisponiblesPopUp()">Cancelar</button>
                 <div id="lista-turnos-disponibles"></div>
             </div>
+        </div>
+
+        <div id="interfaz-responsable">
+
+            <h2>Panel de responsable local</h2>
+            <button onClick="Interfaz.onClick.cerrar_sesion()">Cerrar sesión</button>
+
+            <button id="boton-crear-cuenta" onclick="Interfaz.onClick.abrir_popup_crear_cuenta()">Crear nueva cuenta</button>
+
+            <div id="popup-crear-cuenta">
+                <button id="boton-cerrar-crear-cuenta" onClick="Interfaz.onClick.cerrar_popup_crear_cuenta()">Cerrar</button>
+                <span>Selecciona el tipo de cuenta: </span>
+
+                <select id="select-tipo-cuenta">
+                    <option value="medico">Médico</option>
+                    <option value="secretaria">Secretaria</option>
+                </select>
+
+                <input type="text" placeholder="Nombre" class="nombre" required>
+                <input type="number" placeholder="DNI" class="dni" required>
+                <input type="text" placeholder="Usuario" class="usuario" required>
+                <input type="text" placeholder="Contraseña" class="contrasena" required>
+
+                <button onClick="Interfaz.onClick.crear_cuenta()">Enviar</button>
+            </div>
+
         </div>
 
         <footer></footer>

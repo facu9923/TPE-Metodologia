@@ -94,10 +94,19 @@ class TurnoFacil {
             return resultado;
         }
 
+        resultado = buscarEn(this._responsables);
+
+        if (resultado.encontrado) {
+            resultado.tipo = "responsable";
+            return resultado;
+        }
+
         return resultado;
     }
 
     inicializar() {
+
+        this._responsables = DEFAULT.responsables;
 
         this._medicos = StorageManager.cargarListaObjetos("medicos");
         if (!this._medicos) {
@@ -118,7 +127,7 @@ class TurnoFacil {
             secretaria.vincularMedicos(this._medicos);
         
         for (const medico of this._medicos) {
-            // medico.eliminarTurnosViejos();
+            // medico.eliminarTurnosViejos(); // Funciona mal. A arreglar...
             this.generarTurnosRandom(medico);
         }
 
@@ -142,6 +151,9 @@ class TurnoFacil {
             if (StorageManager.getTipoLogin() == "secretaria") {
                 const secretaria = this.getSecretariaFromUsername(usuario);
                 Interfaz.mostrarInterfazSecretaria(secretaria);
+            }
+            if (StorageManager.getTipoLogin() == "responsable") {
+                Interfaz.mostrarInterfazResponsable();
             }
         }           
 
@@ -184,6 +196,9 @@ class TurnoFacil {
             }
             if (resultado_login.tipo == "secretaria")
                 Interfaz.mostrarInterfazSecretaria(resultado_login.persona);
+
+            if (resultado_login.tipo == "responsable")
+                Interfaz.mostrarInterfazResponsable();
             
         };
 
@@ -258,6 +273,40 @@ class TurnoFacil {
         Interfaz.onClick.volver_a_seleccion_medico = () => {
             Interfaz.ocultarBotonAgendar();
             Interfaz.mostrarSeleccionMedico();
+        };
+
+        Interfaz.onClick.crear_cuenta = () => {
+
+            // Agarrar los datos del html
+            const tipo_cuenta = document.querySelector("#popup-crear-cuenta #select-tipo-cuenta").value;
+            const nombre = document.querySelector("#popup-crear-cuenta .nombre").value;
+            const dni = Number(document.querySelector("#popup-crear-cuenta .dni").value);
+            const nombre_usuario = document.querySelector("#popup-crear-cuenta .usuario").value;
+            const contrasena = document.querySelector("#popup-crear-cuenta .contrasena").value;
+
+            if (!tipo_cuenta || !nombre || !dni || !nombre_usuario || !contrasena)
+                return alert("Debes completar todos los campos");
+            
+            if (isNaN(dni))
+                return alert("El DNI no es valido");
+
+            // Crear cuenta
+
+            const l = (tipo_cuenta == "medico") ? this._medicos : this._secretarias;
+            const t = (tipo_cuenta == "medico") ? Medico : Secretaria;
+
+            // Guardar el dato en memoria
+            l.push(new t(dni, nombre, nombre_usuario, contrasena));
+
+            // Guardar el dato en el disco
+            StorageManager.guardarDatos(
+                this._medicos,
+                this._secretarias
+            );
+
+            // Y cerrar el popup
+
+            document.querySelector("#popup-crear-cuenta").style.display = "none";
         };
     }
 }

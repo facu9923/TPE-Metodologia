@@ -9,16 +9,33 @@ const elemHTML = {
     turnos_disponibles: document.querySelector("#turnos-disponibles"),
     lista_turnos_disponibles: document.querySelector("#lista-turnos-disponibles"),
     datos_paciente_form: document.querySelector("#datos-paciente"),
-    boton_agendar: document.querySelector("#boton-agendar")
+    boton_agendar: document.querySelector("#boton-agendar"),
+    interfaz_responsable: document.querySelector("#interfaz-responsable"),
+    popup_crear_cuenta: document.querySelector("#popup-crear-cuenta"),
+    boton_crear_cuenta: document.querySelector("#boton-crear-cuenta")
 };
 
 class Interfaz {
 
     static onClick = {};
 
+    static mostrarInterfazResponsable() {
+        elemHTML.interfaz_login.style.display = "none";
+        elemHTML.interfaz_general.style.display = "none";
+        elemHTML.interfaz_responsable.style.display = "block";
+        elemHTML.popup_crear_cuenta.style.display = "none";
+        elemHTML.boton_crear_cuenta.style.display = "block";
+    }
+
+    static mostrarInterfazGeneral() {
+        elemHTML.interfaz_general.style.display = "block";
+        elemHTML.interfaz_login.style.display = "none";
+    }
+
     static mostrarLogin() {
         elemHTML.interfaz_login.style.display = "block";
         elemHTML.interfaz_general.style.display = "none";
+        elemHTML.interfaz_responsable.style.display = "none";
     }
 
     static ocultarTurnos() {
@@ -31,12 +48,7 @@ class Interfaz {
 
     static ocultarBotonSelecMedico() {
         elemHTML.btn_selec_medico.style.display = "none";
-    }
-
-    static mostrarInterfazGeneral() {
-        elemHTML.interfaz_general.style.display = "block";
-        elemHTML.interfaz_login.style.display = "none";
-    }
+    }    
 
     static mostrarSeleccionMedico() {
         elemHTML.lista_medicos.style.display = "block";
@@ -272,3 +284,15 @@ class Interfaz {
         }
     }
 }
+
+Interfaz.onClick.cerrar_popup_crear_cuenta = function() {
+    document.getElementById("popup-crear-cuenta").style.display = "none";
+    // Vaciar los inputs...
+    elemHTML.popup_crear_cuenta.style.display = "none";
+    elemHTML.boton_crear_cuenta.style.display = "block";
+};
+
+Interfaz.onClick.abrir_popup_crear_cuenta = function() {
+    elemHTML.popup_crear_cuenta.style.display = "block";
+    elemHTML.boton_crear_cuenta.style.display = "none";
+};
