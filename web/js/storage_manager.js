@@ -59,4 +59,12 @@ class StorageManager {
         StorageManager.guardarListaObjetos("medicos", medicos);
         StorageManager.guardarListaObjetos("secretarias", secretarias);
     }
+
+    static getVersion() {
+        return localStorage.getItem("version");
+    }
+
+    static setVersion(v) {
+        localStorage.setItem("version", String(v));
+    }
 }

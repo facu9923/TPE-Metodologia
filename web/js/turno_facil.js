@@ -106,6 +106,11 @@ class TurnoFacil {
 
     inicializar() {
 
+        if (StorageManager.getVersion() != DEFAULT.version) {
+            StorageManager.eliminarTodo();
+            StorageManager.setVersion(DEFAULT.version);
+        }
+
         this._responsables = DEFAULT.responsables;
 
         this._medicos = StorageManager.cargarListaObjetos("medicos");
@@ -361,6 +366,9 @@ class TurnoFacil {
 
             const secretaria = this.getSecretariaFromUsername(usuario_secretaria);
             const medico = this.getMedicoFromUsername(usuario_medico);
+
+            if (!medico || !secretaria)
+                return;
 
             secretaria.agregarMedico(medico);
             StorageManager.guardarDatos(

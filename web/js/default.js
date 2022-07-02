@@ -22,5 +22,6 @@ const DEFAULT = {
     ],
     responsables: [
         new Responsable(16532693, "Ari Iglesias", "ari_iglesias", "1234")
-    ]
+    ],
+    version: 1
 };
