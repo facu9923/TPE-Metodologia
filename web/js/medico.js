@@ -56,8 +56,6 @@ class Medico extends Persona {
         this._turnos.splice(i, 0, turno);
     }
 
-    // ANDA MAL
-    /*
     eliminarTurnosViejos() {
 
         const ahora = new Turno(Date.now());
@@ -67,7 +65,7 @@ class Medico extends Persona {
 
         while (!turno_pendiente_encontrado && i < this._turnos.length) {
 
-            if (this._turnos[i].esAnterior(ahora))
+            if (!this._turnos[i].esAnterior(ahora))
                 turno_pendiente_encontrado = true;
             else
                 i++;
@@ -76,7 +74,6 @@ class Medico extends Persona {
         // guardar solo los turnos pendientes
         this._turnos = this._turnos.slice(i);
     }
-    */
 
     cantidadTurnos() {
         return this._turnos.length;

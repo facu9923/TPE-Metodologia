@@ -127,7 +127,7 @@ class TurnoFacil {
             secretaria.vincularMedicos(this._medicos);
         
         for (const medico of this._medicos) {
-            // medico.eliminarTurnosViejos(); // Funciona mal. A arreglar...
+            medico.eliminarTurnosViejos();
             this.generarTurnosRandom(medico);
         }
 
