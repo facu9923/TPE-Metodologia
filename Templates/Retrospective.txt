@@ -1,4 +1,4 @@
-#Summary Sprint Retrospective: <Sprint #>
+#Summary Sprint Retrospective: <Sprint #1>
 
 ##1. Los invitados a la reunion son:
 	_Facundo Arias
@@ -25,7 +25,26 @@
 	
 
 ##5. que nos comprometemremos a hacer en el proccimo Sprint:
-	Nos comprometemos a corregir los errores de la primera entrega y refinar ymplementar los pbis 
+	Nos comprometemos a corregir los errores de la primera entrega y refinar y mplementar los pbis 
 	seleccionados, ademas intentaremos mejorar el trabajo grupal.
 
 
+#Summary Sprint Retrospective: <Sprint #2>
+
+##1. Los invitados a la reunion son:
+	_Facundo Arias
+	_Enzo Seguel
+	_Ramiro Rojas
+	_Christian Sanchotena
+	_Nicolas Medioli
+	_Nahuel Charlone
+
+##2. No hay asistentes
+
+##4. Que se podria mejorar?
+	Se puede mejorar aun mas la predispocicion del grupo para ponerse a trabajar, ademas podemos aumentar la eficiencia a la hora de trabajar, ya que a veces
+	estamos mucho tiempo y hacemos poco.
+
+##5. que nos comprometemremos a hacer en el proccimo Sprint:
+	Nos comprometemos a corregir los errores de la segunda entrega y realizar todas las tareas que nos pide el sprint actual,
+	ademas intentaremos mejorar la eficiencia a la hora de trabajar.
