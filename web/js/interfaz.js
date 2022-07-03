@@ -308,4 +308,3 @@ Interfaz.onClick.abrir_popup_crear_cuenta = function() {
 Interfaz.onClick.cerrar_popup_asignacion = () => {
     document.querySelector("#popup-asignacion").style.display = "none";
 };
-

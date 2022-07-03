@@ -239,7 +239,8 @@ class TurnoFacil {
             let nombrePaciente = document.getElementById("datos-paciente-nombre").value;
             let dniPaciente = Number(document.getElementById("datos-paciente-dni").value);
     
-            // Ver si ya existe el dni (guardar en turno.paciente)
+            if (!nombrePaciente || !dniPaciente || isNaN(dniPaciente))
+                return;
 
             turno.setPaciente(new Persona(
                 dniPaciente,
@@ -309,14 +310,11 @@ class TurnoFacil {
                 if (dni == secr.getDNI() || nombre_usuario == secr.getUsuario())
                     return alert("Error: el usuario ya está registrado como secretaria");
 
-            /*
-            for (let i = 0; i < l.length; i++)
-                if (dni == l[i].getDNI() || nombre_usuario == l[i].getUsuario())
-                    return alert("Ya existe una cuenta con los datos ingresados");
-            */
-
             // Guardar el dato en memoria
             l.push(new t(dni, nombre, nombre_usuario, contrasena));
+
+            if (tipo_cuenta == "medico")
+                this.generarTurnosRandom(l[l.length-1]);
 
             // Guardar el dato en el disco
             StorageManager.guardarDatos(
